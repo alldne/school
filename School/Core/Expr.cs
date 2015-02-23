@@ -5,12 +5,89 @@ namespace School.Core
     public interface IExprVisitor<R>
     {
         R Visit(Number number);
-        R Visit(FunApp app);
+        R Visit(BuiltinFunApp app);
+        R Visit(IdExpr idExpr);
+        R Visit(FunAbs funAbs);
+        R Visit(FunApp funApp);
     }
 
     public abstract class Expr
     {
         public abstract R Accept<R>(IExprVisitor<R> visitor);
+    }
+
+    public class IdExpr : Expr 
+    {
+        private Id id;
+
+        public Id Id
+        {
+            get { return id; }
+        }
+
+        public IdExpr(Id id)
+        {
+            this.id = id;
+        }
+
+        public override R Accept<R>(IExprVisitor<R> visitor)
+        {
+            return visitor.Visit(this);
+        }
+    }
+
+    public class FunAbs : Expr
+    {
+        private readonly Id argId;
+        private readonly Expr bodyExpr;
+
+        public Id ArgId
+        {
+            get { return argId; }
+        }
+
+        public Expr BodyExpr
+        {
+            get { return bodyExpr; }
+        }
+
+        public FunAbs(Id argId, Expr bodyExpr)
+        {
+            this.argId = argId;
+            this.bodyExpr = bodyExpr;
+        }
+
+        public override R Accept<R>(IExprVisitor<R> visitor)
+        {
+            return visitor.Visit(this);
+        }
+    }
+
+    public class FunApp : Expr
+    {
+        private readonly Expr fun;
+        private readonly Expr arg;
+
+        public Expr Fun
+        {
+            get { return fun; }
+        }
+
+        public Expr Arg
+        {
+            get { return arg; }
+        }
+
+        public FunApp(Expr fun, Expr arg)
+        {
+            this.fun = fun;
+            this.arg = arg;
+        }
+
+        public override R Accept<R>(IExprVisitor<R> visitor)
+        {
+            return visitor.Visit(this);
+        }
     }
 
     public class Number : Expr
@@ -33,7 +110,7 @@ namespace School.Core
         }
     }
 
-    public class FunApp : Expr
+    public class BuiltinFunApp : Expr
     {
         private readonly string name;
 
@@ -49,7 +126,7 @@ namespace School.Core
             get { return args; }
         }
             
-        public FunApp(string name, Expr[] args)
+        public BuiltinFunApp(string name, Expr[] args)
         {
             this.name = name;
             this.args = args;

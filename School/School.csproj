@@ -45,6 +45,9 @@
     <Compile Include="Surface\Expr.cs" />
     <Compile Include="Core\Expr.cs" />
     <Compile Include="Desugarer.cs" />
+    <Compile Include="Env.cs" />
+    <Compile Include="Id.cs" />
+    <Compile Include="Value.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

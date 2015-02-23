@@ -3,36 +3,117 @@ using System.Collections.Generic;
 
 namespace School
 {
-    public class Evaluator : Core.IExprVisitor<int>
+    public class RuntimeTypeError : Exception
     {
-        private static readonly Dictionary<string, Func<int, int, int>> builtinFunctions = new Dictionary<string, Func<int, int, int>>
+        public RuntimeTypeError(string message) : base(message)
         {
-            { "add", (a, b) => a + b },
-            { "sub", (a, b) => a - b },
-            { "mul", (a, b) => a * b },
-            { "div", (a, b) => a / b }
+        }
+    }
+
+    public static class BuiltinFunctions 
+    {
+        public static Value Add(Value a, Value b)
+        {
+            IntValue aValue = a as IntValue;
+            IntValue bValue = b as IntValue;
+            if (aValue == null || bValue == null)
+                throw new RuntimeTypeError("int expected");
+
+            return new IntValue(aValue.Value + bValue.Value);
+        }
+
+        public static Value Sub(Value a, Value b)
+        {
+            IntValue aValue = a as IntValue;
+            IntValue bValue = b as IntValue;
+            if (aValue == null || bValue == null)
+                throw new RuntimeTypeError("int expected");
+
+            return new IntValue(aValue.Value - bValue.Value);
+        }
+
+        public static Value Mul(Value a, Value b)
+        {
+            IntValue aValue = a as IntValue;
+            IntValue bValue = b as IntValue;
+            if (aValue == null || bValue == null)
+                throw new RuntimeTypeError("int expected");
+
+            return new IntValue(aValue.Value * bValue.Value);
+        }
+
+        public static Value Div(Value a, Value b)
+        {
+            IntValue aValue = a as IntValue;
+            IntValue bValue = b as IntValue;
+            if (aValue == null || bValue == null)
+                throw new RuntimeTypeError("int expected");
+
+            return new IntValue(aValue.Value / bValue.Value);
+        }
+    }
+
+    public class Evaluator : Core.IExprVisitor<Value>
+    {
+        private static readonly Dictionary<string, Func<Value, Value, Value>> builtinFunctions = new Dictionary<string, Func<Value, Value, Value>>
+        {
+            { "add", BuiltinFunctions.Add },
+            { "sub", BuiltinFunctions.Sub },
+            { "mul", BuiltinFunctions.Mul },
+            { "div", BuiltinFunctions.Div }
         };
+
+        private Env env = Env.Empty;
 
         public Evaluator() { }
 
-        public int Evaluate(Core.Expr expr)
+        public Value Evaluate(Core.Expr expr)
         {
             return expr.Accept(this);
         }
 
-        int Core.IExprVisitor<int>.Visit(Core.Number number)
+        Value Core.IExprVisitor<Value>.Visit(Core.Number number)
         {
-            return number.Value;
+            return new IntValue(number.Value);
         }
 
-        int Core.IExprVisitor<int>.Visit(Core.FunApp app)
+        Value Core.IExprVisitor<Value>.Visit(Core.BuiltinFunApp app)
         {
-            // FIXME: Currently, we assume that all functions are binary.
-            int arg0 = app.Args[0].Accept(this);
-            int arg1 = app.Args[1].Accept(this);
+            // FIXME: Currently, we assume that all builtin functions are binary.
+            Value arg0 = app.Args[0].Accept(this);
+            Value arg1 = app.Args[1].Accept(this);
 
-            Func<int, int, int> func = builtinFunctions[app.Name];
+            Func<Value, Value, Value> func = builtinFunctions[app.Name];
             return func(arg0, arg1);
+        }
+
+        Value Core.IExprVisitor<Value>.Visit(Core.IdExpr idExpr)
+        {
+            return env.Lookup(idExpr.Id);
+        }
+
+        Value Core.IExprVisitor<Value>.Visit(Core.FunAbs funAbs)
+        {
+            Env closure = this.env;
+            Func<Value, Value> fun = a =>
+            {
+                    Env oldEnv = this.env;
+                    this.env = closure.Add(funAbs.ArgId, a);
+                    Value result = funAbs.BodyExpr.Accept(this);
+                    this.env = oldEnv;
+                    return result;
+            };
+            return new FunValue(fun);
+        }
+
+        Value Core.IExprVisitor<Value>.Visit(Core.FunApp funApp)
+        {
+            FunValue funValue = funApp.Fun.Accept(this) as FunValue;
+            if (funValue == null)
+                throw new RuntimeTypeError("function expected");
+            Value argValue = funApp.Arg.Accept(this);
+
+            return funValue.Apply(argValue);
         }
     }
 }

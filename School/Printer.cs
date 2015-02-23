@@ -49,5 +49,29 @@ namespace School
             PrintBinaryOperator(div, '/');
             return null;
         }
+
+        object Surface.IExprVisitor<object>.Visit(Surface.IdExpr idExpr)
+        {
+            Console.Write(idExpr.Id);
+            return null;
+        }
+
+        object Surface.IExprVisitor<object>.Visit(Surface.FunAbs funAbs)
+        {
+            Console.Write("fun ");
+            Console.Write(funAbs.ArgId);
+            Console.Write(" -> ");
+            Print(funAbs.BodyExpr);
+            Console.Write(" end");
+            return null;
+        }
+
+        object Surface.IExprVisitor<object>.Visit(Surface.FunApp funApp)
+        {
+            Print(funApp.Fun);
+            Console.Write(" ");
+            Print(funApp.Arg);
+            return null;
+        }
     }
 }

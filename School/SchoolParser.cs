@@ -11,7 +11,10 @@ namespace School
 
         public Surface.Expr Parse()
         {
-            return Expr();
+            Surface.Expr expr = Expr();
+            if (lookahead.Type != SchoolLexer.EOF_TYPE)
+                throw new ParserException("expecting eof; found " + lookahead);
+            return expr;
         }
 
         private Surface.Expr Expr()
@@ -48,7 +51,7 @@ namespace School
 
         private Surface.Expr Term()
         {
-            Surface.Expr left = Factor();
+            Surface.Expr left = App();
 
             int type = lookahead.Type;
             switch (type)
@@ -78,6 +81,38 @@ namespace School
             return expr;
         }
 
+        private bool IsApp()
+        {
+            int type = lookahead.Type;
+            switch (type)
+            {
+                case SchoolLexer.KEYWORDS:
+                    if (lookahead.Text == "fun")
+                        return true;
+                    else
+                        return false;
+                case SchoolLexer.LPAREN:
+                case SchoolLexer.NUM:
+                case SchoolLexer.ID:
+                    return true;
+                default:
+                    return false;
+            }
+        }
+
+        private Surface.Expr App()
+        {
+            Surface.Expr left = Factor();
+
+            while (IsApp())
+            {
+                Surface.Expr right = Factor();
+                left = new Surface.FunApp(left, right);
+            }
+
+            return left;
+        }
+
         private Surface.Expr Factor()
         {
             Surface.Expr expr;
@@ -94,11 +129,40 @@ namespace School
                     expr = new Surface.Number(Int32.Parse(numberText));
                     Consume();
                     break;
+                case SchoolLexer.ID:
+                    string idText = lookahead.Text;
+                    expr = new Surface.IdExpr(Id.id(idText));
+                    Consume();
+                    break;
+                case SchoolLexer.KEYWORDS:
+                    MatchKeyword("fun");
+
+                    if (lookahead.Type != SchoolLexer.ID)
+                        throw new ParserException("expecting id; found " + lookahead);
+                    Id argId = Id.id(lookahead.Text);
+                    Consume();
+                    if (lookahead.Type != SchoolLexer.ARROW)
+                        throw new ParserException("expecting arrow; found " + lookahead);
+                    Consume();
+                    Surface.Expr bodyExpr = Expr();
+                    expr = new Surface.FunAbs(argId, bodyExpr);
+
+                    MatchKeyword("end");
+                    break;
                 default:
                     throw new ParserException("expecting number; found " + lookahead);
             }
 
             return expr;
+        }
+
+        private void MatchKeyword(string keyword)
+        {
+            if (lookahead.Type == SchoolLexer.KEYWORDS && lookahead.Text == keyword)
+                Consume();
+            else
+                throw new ParserException("expecting keyword " + keyword + 
+                    "; found " + lookahead);
         }
     }
 }

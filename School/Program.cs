@@ -6,7 +6,7 @@ namespace School
     {
         public static void Main(string[] args)
         {
-            var input = "1 * (2 + 3) - 4";
+            var input = "(fun x -> fun y -> x + y end end) 1 2";
             Console.Write("Input:\n {0}\n\n", input);
 
             var lexer = new SchoolLexer(input);
