@@ -20,9 +20,9 @@ namespace School
         private void PrintBinaryOperator(Surface.BinaryOperator binOp, char opChar)
         {
             Console.Write("(");
-            Print(binOp.Left);
+            binOp.Left.Accept(this);
             Console.Write(" {0} ", opChar);
-            Print(binOp.Right);
+            binOp.Right.Accept(this);
             Console.Write(")");
         }
 
@@ -61,16 +61,16 @@ namespace School
             Console.Write("fun ");
             Console.Write(funAbs.ArgId);
             Console.Write(" -> ");
-            Print(funAbs.BodyExpr);
+            funAbs.BodyExpr.Accept(this);
             Console.Write(" end");
             return null;
         }
 
         object Surface.IExprVisitor<object>.Visit(Surface.FunApp funApp)
         {
-            Print(funApp.Fun);
+            funApp.Fun.Accept(this);
             Console.Write(" ");
-            Print(funApp.Arg);
+            funApp.Arg.Accept(this);
             return null;
         }
     }
