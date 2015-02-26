@@ -18,7 +18,7 @@ namespace School.Core
 
     public class IdExpr : Expr 
     {
-        private Id id;
+        private readonly Id id;
 
         public Id Id
         {
