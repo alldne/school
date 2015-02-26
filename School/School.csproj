@@ -48,6 +48,7 @@
     <Compile Include="Env.cs" />
     <Compile Include="Id.cs" />
     <Compile Include="Value.cs" />
+    <Compile Include="BuiltinFunctions.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
