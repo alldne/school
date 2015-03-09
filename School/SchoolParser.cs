@@ -115,31 +115,44 @@ namespace School
                     break;
                 case SchoolLexer.KEYWORDS:
                     if (lookahead.Text == "true" || lookahead.Text == "false")
-                    {
-                        bool b = Boolean.Parse(lookahead.Text);
-                        expr = new Surface.Boolean(b);
-                        Consume();
-                    }
+                        expr = ParseBoolean();
                     else
-                    {
-                        MatchKeyword("fun");
-
-                        IList<Id> argIds = ParseArgIds();
-
-                        if (lookahead.Type != SchoolLexer.ARROW)
-                            throw new ParserException("expecting arrow; found " + lookahead);
-                        Consume();
-                        Surface.Expr bodyExpr = ParseExpr();
-                        expr = new Surface.FunAbs(argIds, bodyExpr);
-
-                        MatchKeyword("end");
-                    }
+                        expr = ParseFunAbs();
                     break;
                 default:
                     throw new ParserException("expecting number; found " + lookahead);
             }
 
             return expr;
+        }
+
+        private Surface.Expr ParseFunAbs()
+        {
+            Surface.Expr expr;
+
+            MatchKeyword("fun");
+
+            IList<Id> argIds = ParseArgIds();
+
+            if (lookahead.Type != SchoolLexer.ARROW)
+                throw new ParserException("expecting arrow; found " + lookahead);
+            Consume();
+            Surface.Expr bodyExpr = ParseExpr();
+            expr = new Surface.FunAbs(argIds, bodyExpr);
+
+            MatchKeyword("end");
+
+            return expr;
+        }
+
+        private Surface.Expr ParseBoolean()
+        {
+            if (lookahead.Text != "true" && lookahead.Text != "false")
+                throw new ParserException("expecting boolean; found " + lookahead);
+
+            bool b = Boolean.Parse(lookahead.Text);
+            Consume();
+            return new Surface.Boolean(b);
         }
 
         private IList<Id> ParseArgIds()
