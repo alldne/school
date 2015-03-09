@@ -65,7 +65,7 @@ namespace School
             int type = lookahead.Type;
             switch (type)
             {
-                case SchoolLexer.KEYWORDS:
+                case SchoolLexer.KEYWORD:
                     if (lookahead.Text == "fun" || lookahead.Text == "true" || lookahead.Text == "false")
                         return true;
                     else
@@ -113,7 +113,7 @@ namespace School
                     expr = new Surface.IdExpr(Id.id(idText));
                     Consume();
                     break;
-                case SchoolLexer.KEYWORDS:
+                case SchoolLexer.KEYWORD:
                     if (lookahead.Text == "true" || lookahead.Text == "false")
                         expr = ParseBoolean();
                     else
@@ -173,7 +173,7 @@ namespace School
 
         private void MatchKeyword(string keyword)
         {
-            if (lookahead.Type == SchoolLexer.KEYWORDS && lookahead.Text == keyword)
+            if (lookahead.Type == SchoolLexer.KEYWORD && lookahead.Text == keyword)
                 Consume();
             else
                 throw new ParserException("expecting keyword " + keyword + 

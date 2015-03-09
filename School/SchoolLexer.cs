@@ -14,7 +14,7 @@ namespace School
         public const int RPAREN = 7;
         public const int NUM = 8;
         public const int ID = 9;
-        public const int KEYWORDS = 10;
+        public const int KEYWORD = 10;
         public const int ARROW = 11;
         public static readonly string[] tokenNames =
             { "n/a", "<EOF>", "ADD", "SUB", "MUL", "DIV", "LPAREN", "RPAREN", "NUM", "ID", "KEYWORDS", "ARROW" };
@@ -110,7 +110,7 @@ namespace School
 
             string str = buf.ToString();
             if (keywords.Contains(str))
-                return new Token(KEYWORDS, str);
+                return new Token(KEYWORD, str);
             else 
                 return new Token(ID, str);
         }
