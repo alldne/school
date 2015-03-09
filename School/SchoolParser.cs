@@ -130,8 +130,6 @@ namespace School
 
         private Surface.Expr ParseIf()
         {
-            Surface.Expr expr;
-
             MatchKeyword("if");
             Surface.Expr condExpr = ParseExpr();
             MatchKeyword("then");
