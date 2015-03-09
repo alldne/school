@@ -83,5 +83,16 @@ namespace School
             funApp.Arg.Accept(this);
             return null;
         }
+
+        object Surface.IExprVisitor<object>.Visit(Surface.IfExpr ifExpr)
+        {
+            Console.Write("if ");
+            ifExpr.Cond.Accept(this);
+            Console.Write(" then ");
+            ifExpr.Then.Accept(this);
+            Console.Write(" else ");
+            ifExpr.Else.Accept(this);
+            return null;
+        }
     }
 }

@@ -81,5 +81,14 @@ namespace School
 
             return funValue.Apply(argValue);
         }
+
+        Value Core.IExprVisitor<Value>.Visit(Core.IfExpr ifExpr)
+        {
+            BooleanValue cond = ifExpr.Cond.Accept(this) as BooleanValue;
+            if (cond.Value)
+                return ifExpr.Then.Accept(this);
+            else
+                return ifExpr.Else.Accept(this);
+        }
     }
 }

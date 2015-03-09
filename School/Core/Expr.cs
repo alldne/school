@@ -10,6 +10,7 @@ namespace School.Core
         R Visit(IdExpr idExpr);
         R Visit(FunAbs funAbs);
         R Visit(FunApp funApp);
+        R Visit(IfExpr ifExpr);
     }
 
     public abstract class Expr
@@ -84,6 +85,41 @@ namespace School.Core
             this.fun = fun;
             this.arg = arg;
         }
+
+        public override R Accept<R>(IExprVisitor<R> visitor)
+        {
+            return visitor.Visit(this);
+        }
+    }
+
+
+    public class IfExpr : Expr
+    {
+        private readonly Expr condExpr;
+        private readonly Expr thenExpr;
+        private readonly Expr elseExpr;
+
+        public Expr Cond
+        {
+            get { return condExpr; }
+        }
+
+        public Expr Then
+        {
+            get { return thenExpr; }
+        }
+
+        public Expr Else
+        {
+            get { return elseExpr; }
+        }
+
+        public IfExpr(Expr condExpr, Expr thenExpr, Expr elseExpr)
+        {
+            this.condExpr = condExpr;
+            this.thenExpr = thenExpr;
+            this.elseExpr = elseExpr;
+            }
 
         public override R Accept<R>(IExprVisitor<R> visitor)
         {

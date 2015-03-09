@@ -111,5 +111,15 @@ namespace School
             IntValue result = fun.Apply(arg) as IntValue;
             Assert.AreEqual(result.Value, 3);
         }
+
+        [Test]
+        public void TestIf()
+        {
+            IntValue value1 = Evaluate("if true then 1 else 2") as IntValue;
+            Assert.AreEqual(value1.Value, 1);
+
+            IntValue value2 = Evaluate("if false then 1 else 2") as IntValue;
+            Assert.AreEqual(value2.Value, 2);
+        }
     }
 }

@@ -66,7 +66,7 @@ namespace School
             switch (type)
             {
                 case SchoolLexer.KEYWORD:
-                    if (lookahead.Text == "fun" || lookahead.Text == "true" || lookahead.Text == "false")
+                    if (lookahead.Text == "fun" || lookahead.Text == "true" || lookahead.Text == "false" || lookahead.Text == "if")
                         return true;
                     else
                         return false;
@@ -116,6 +116,8 @@ namespace School
                 case SchoolLexer.KEYWORD:
                     if (lookahead.Text == "true" || lookahead.Text == "false")
                         expr = ParseBoolean();
+                    else if (lookahead.Text == "if")
+                        expr = ParseIf();
                     else
                         expr = ParseFunAbs();
                     break;
@@ -124,6 +126,20 @@ namespace School
             }
 
             return expr;
+        }
+
+        private Surface.Expr ParseIf()
+        {
+            Surface.Expr expr;
+
+            MatchKeyword("if");
+            Surface.Expr condExpr = ParseExpr();
+            MatchKeyword("then");
+            Surface.Expr thenExpr = ParseExpr();
+            MatchKeyword("else");
+            Surface.Expr elseExpr = ParseExpr();
+
+            return new Surface.IfExpr(condExpr, thenExpr, elseExpr);
         }
 
         private Surface.Expr ParseFunAbs()

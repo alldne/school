@@ -68,5 +68,13 @@ namespace School
             Core.Expr arg = funApp.Arg.Accept(this);
             return new Core.FunApp(fun, arg);
         }
+
+        Core.Expr Surface.IExprVisitor<Core.Expr>.Visit(Surface.IfExpr ifExpr)
+        {
+            Core.Expr condExpr = ifExpr.Cond.Accept(this);
+            Core.Expr thenExpr = ifExpr.Then.Accept(this);
+            Core.Expr elseExpr = ifExpr.Else.Accept(this);
+            return new Core.IfExpr(condExpr, thenExpr, elseExpr);
+        }
     }
 }
