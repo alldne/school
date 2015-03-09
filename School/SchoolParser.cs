@@ -12,22 +12,22 @@ namespace School
 
         public Surface.Expr Parse()
         {
-            Surface.Expr expr = Expr();
+            Surface.Expr expr = ParseExpr();
             if (lookahead.Type != SchoolLexer.EOF_TYPE)
                 throw new ParserException("expecting eof; found " + lookahead);
             return expr;
         }
 
-        private Surface.Expr Expr()
+        private Surface.Expr ParseExpr()
         {
-            Surface.Expr left = Term();
+            Surface.Expr left = ParseTerm();
 
             while (lookahead.Type == SchoolLexer.ADD || lookahead.Type == SchoolLexer.SUB)
             {
                 int type = lookahead.Type;
                 Consume();
 
-                Surface.Expr right = Term();
+                Surface.Expr right = ParseTerm();
                 if (type == SchoolLexer.ADD)
                     left = new Surface.Add(left, right);
                 else if (type == SchoolLexer.SUB)
@@ -39,16 +39,16 @@ namespace School
             return left;
         }
 
-        private Surface.Expr Term()
+        private Surface.Expr ParseTerm()
         {
-            Surface.Expr left = App();
+            Surface.Expr left = ParseApp();
 
             while (lookahead.Type == SchoolLexer.MUL || lookahead.Type == SchoolLexer.DIV)
             {
                 int type = lookahead.Type;
                 Consume();
 
-                Surface.Expr right = App();
+                Surface.Expr right = ParseApp();
                 if (type == SchoolLexer.MUL)
                     left = new Surface.Mul(left, right);
                 else if (type == SchoolLexer.DIV)
@@ -79,20 +79,20 @@ namespace School
             }
         }
 
-        private Surface.Expr App()
+        private Surface.Expr ParseApp()
         {
-            Surface.Expr left = Factor();
+            Surface.Expr left = ParseFactor();
 
             while (IsApp())
             {
-                Surface.Expr right = Factor();
+                Surface.Expr right = ParseFactor();
                 left = new Surface.FunApp(left, right);
             }
 
             return left;
         }
 
-        private Surface.Expr Factor()
+        private Surface.Expr ParseFactor()
         {
             Surface.Expr expr;
 
@@ -100,7 +100,7 @@ namespace School
             {
                 case SchoolLexer.LPAREN:
                     Match(SchoolLexer.LPAREN);
-                    expr = Expr();
+                    expr = ParseExpr();
                     Match(SchoolLexer.RPAREN);
                     break;
                 case SchoolLexer.NUM:
@@ -124,12 +124,12 @@ namespace School
                     {
                         MatchKeyword("fun");
 
-                        IList<Id> argIds = ArgIds();
+                        IList<Id> argIds = ParseArgIds();
 
                         if (lookahead.Type != SchoolLexer.ARROW)
                             throw new ParserException("expecting arrow; found " + lookahead);
                         Consume();
-                        Surface.Expr bodyExpr = Expr();
+                        Surface.Expr bodyExpr = ParseExpr();
                         expr = new Surface.FunAbs(argIds, bodyExpr);
 
                         MatchKeyword("end");
@@ -142,7 +142,7 @@ namespace School
             return expr;
         }
 
-        private IList<Id> ArgIds()
+        private IList<Id> ParseArgIds()
         {
             if (lookahead.Type != SchoolLexer.ID)
                 throw new ParserException("expecting id; found " + lookahead);
