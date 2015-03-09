@@ -22,32 +22,21 @@ namespace School
         {
             Surface.Expr left = Term();
 
-            int type = lookahead.Type;
-            switch (type)
+            while (lookahead.Type == SchoolLexer.ADD || lookahead.Type == SchoolLexer.SUB)
             {
-                case SchoolLexer.ADD:
-                case SchoolLexer.SUB:
-                    Consume();
-                    break;
-                default:
-                    return left;
-            }
+                int type = lookahead.Type;
+                Consume();
 
-            Surface.Expr right = Expr();
-
-            Surface.Expr expr;
-            switch (type)
-            {
-                case SchoolLexer.ADD:
-                    expr = new Surface.Add(left, right);
-                    break;
-                case SchoolLexer.SUB:
-                    expr = new Surface.Sub(left, right);
-                    break;
-                default:
+                Surface.Expr right = Term();
+                if (type == SchoolLexer.ADD)
+                    left = new Surface.Add(left, right);
+                else if (type == SchoolLexer.SUB)
+                    left = new Surface.Sub(left, right);
+                else
                     throw new ParserException("unreachable code");
             }
-            return expr;
+
+            return left;
         }
 
         private Surface.Expr Term()
