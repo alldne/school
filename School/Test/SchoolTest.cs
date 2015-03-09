@@ -83,5 +83,40 @@ namespace School
         {
             Evaluate("1 / 0");
         }
+
+        [Test]
+        public void TestFunAbs()
+        {
+            FunValue fun = Evaluate("fun x -> x end") as FunValue;
+            IntValue arg = new IntValue(1);
+            IntValue result = fun.Apply(arg) as IntValue;
+            Assert.AreEqual(result.Value, 1);
+        }
+
+        [Test]
+        public void TestFunApp()
+        {
+            IntValue value = Evaluate("(fun x -> x end) 1") as IntValue;
+            Assert.AreEqual(value.Value, 1);
+        }
+
+        [Test]
+        public void TestMultiArgFun()
+        {
+            IntValue value = Evaluate("(fun x y -> x + y end) 1 2") as IntValue;
+            Assert.AreEqual(value.Value, 3);
+        }
+
+        [Test]
+        public void TestCurryingFun()
+        {
+            IntValue value = Evaluate("(fun x -> fun y -> x + y end end) 1 2") as IntValue;
+            Assert.AreEqual(value.Value, 3);
+
+            FunValue fun = Evaluate("(fun x -> fun y -> x + y end end) 1") as FunValue;
+            IntValue arg = new IntValue(2);
+            IntValue result = fun.Apply(arg) as IntValue;
+            Assert.AreEqual(result.Value, 3);
+        }
     }
 }
