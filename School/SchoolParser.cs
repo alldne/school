@@ -43,32 +43,21 @@ namespace School
         {
             Surface.Expr left = App();
 
-            int type = lookahead.Type;
-            switch (type)
+            while (lookahead.Type == SchoolLexer.MUL || lookahead.Type == SchoolLexer.DIV)
             {
-                case SchoolLexer.MUL:
-                case SchoolLexer.DIV:
-                    Consume();
-                    break;
-                default:
-                    return left;
-            }
+                int type = lookahead.Type;
+                Consume();
 
-            Surface.Expr right = Term();
-
-            Surface.Expr expr;
-            switch (type)
-            {
-                case SchoolLexer.MUL:
-                    expr = new Surface.Mul(left, right);
-                    break;
-                case SchoolLexer.DIV:
-                    expr = new Surface.Div(left, right);
-                    break;
-                default:
+                Surface.Expr right = App();
+                if (type == SchoolLexer.MUL)
+                    left = new Surface.Mul(left, right);
+                else if (type == SchoolLexer.DIV)
+                    left = new Surface.Div(left, right);
+                else
                     throw new ParserException("unreachable code");
             }
-            return expr;
+                
+            return left;
         }
 
         private bool IsApp()
