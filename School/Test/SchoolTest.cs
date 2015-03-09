@@ -9,15 +9,8 @@ namespace School
     {
         private Value Evaluate(string code)
         {
-            var lexer = new SchoolLexer(code);
-            var parser = new SchoolParser(lexer);
-            Surface.Expr expr = parser.Parse();
-
-            var desugarer = new Desugarer();
-            Core.Expr coreExpr = desugarer.Desugar(expr);
-
             var evaluator = new Evaluator();
-            return evaluator.Evaluate(coreExpr);
+            return evaluator.Evaluate(code);
         }
 
         [Test]

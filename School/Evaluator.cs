@@ -21,6 +21,18 @@ namespace School
             return expr.Accept(this);
         }
 
+        public Value Evaluate(string code)
+        {
+            var lexer = new SchoolLexer(code);
+            var parser = new SchoolParser(lexer);
+            Surface.Expr expr = parser.Parse();
+
+            var desugarer = new Desugarer();
+            Core.Expr coreExpr = desugarer.Desugar(expr);
+
+            return Evaluate(coreExpr);
+        }
+
         Value Core.IExprVisitor<Value>.Visit(Core.Number number)
         {
             return new IntValue(number.Value);
