@@ -17,6 +17,12 @@ namespace School
             return null;
         }
 
+        object Surface.IExprVisitor<object>.Visit(Surface.Boolean b)
+        {
+            Console.Write(b.Value);
+            return null;
+        }
+
         private void PrintBinaryOperator(Surface.BinaryOperator binOp, char opChar)
         {
             Console.Write("(");

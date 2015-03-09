@@ -66,7 +66,7 @@ namespace School
             switch (type)
             {
                 case SchoolLexer.KEYWORDS:
-                    if (lookahead.Text == "fun")
+                    if (lookahead.Text == "fun" || lookahead.Text == "true" || lookahead.Text == "false")
                         return true;
                     else
                         return false;
@@ -114,17 +114,26 @@ namespace School
                     Consume();
                     break;
                 case SchoolLexer.KEYWORDS:
-                    MatchKeyword("fun");
+                    if (lookahead.Text == "true" || lookahead.Text == "false")
+                    {
+                        bool b = Boolean.Parse(lookahead.Text);
+                        expr = new Surface.Boolean(b);
+                        Consume();
+                    }
+                    else
+                    {
+                        MatchKeyword("fun");
 
-                    IList<Id> argIds = ArgIds();
+                        IList<Id> argIds = ArgIds();
 
-                    if (lookahead.Type != SchoolLexer.ARROW)
-                        throw new ParserException("expecting arrow; found " + lookahead);
-                    Consume();
-                    Surface.Expr bodyExpr = Expr();
-                    expr = new Surface.FunAbs(argIds, bodyExpr);
+                        if (lookahead.Type != SchoolLexer.ARROW)
+                            throw new ParserException("expecting arrow; found " + lookahead);
+                        Consume();
+                        Surface.Expr bodyExpr = Expr();
+                        expr = new Surface.FunAbs(argIds, bodyExpr);
 
-                    MatchKeyword("end");
+                        MatchKeyword("end");
+                    }
                     break;
                 default:
                     throw new ParserException("expecting number; found " + lookahead);

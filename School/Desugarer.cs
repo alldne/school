@@ -18,6 +18,11 @@ namespace School
             return new Core.Number(number.Value);
         }
 
+        Core.Expr Surface.IExprVisitor<Core.Expr>.Visit(Surface.Boolean b)
+        {
+            return new Core.Boolean(b.Value);
+        }
+
         Core.Expr Surface.IExprVisitor<Core.Expr>.Visit(Surface.Add add)
         {
             Core.Expr left = add.Left.Accept(this);

@@ -26,6 +26,11 @@ namespace School
             return new IntValue(number.Value);
         }
 
+        Value Core.IExprVisitor<Value>.Visit(Core.Boolean b)
+        {
+            return new BooleanValue(b.Value);
+        }
+
         Value Core.IExprVisitor<Value>.Visit(Core.BuiltinFunApp app)
         {
             // FIXME: Currently, we assume that all builtin functions are binary.

@@ -5,6 +5,7 @@ namespace School.Core
     public interface IExprVisitor<R>
     {
         R Visit(Number number);
+        R Visit(Boolean b);
         R Visit(BuiltinFunApp app);
         R Visit(IdExpr idExpr);
         R Visit(FunAbs funAbs);
@@ -100,6 +101,26 @@ namespace School.Core
         }
 
         public Number(int value)
+        {
+            this.value = value;
+        }
+
+        public override R Accept<R>(IExprVisitor<R> visitor)
+        {
+            return visitor.Visit(this);
+        }
+    }
+
+    public class Boolean : Expr
+    {
+        private readonly bool value;
+
+        public bool Value
+        {
+            get { return value; }
+        }
+
+        public Boolean(bool value)
         {
             this.value = value;
         }

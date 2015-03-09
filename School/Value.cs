@@ -26,6 +26,26 @@ namespace School
         }
     }
 
+    public class BooleanValue : Value
+    {
+        private readonly bool value;
+
+        public bool Value
+        {
+            get { return value; }
+        }
+
+        public BooleanValue(bool value)
+        {
+            this.value = value;
+        }
+
+        public override string ToString()
+        {
+            return value.ToString();
+        }
+    }
+
     public class FunValue : Value
     {
         private readonly Func<Value, Value> value;

@@ -18,7 +18,7 @@ namespace School
         public const int ARROW = 11;
         public static readonly string[] tokenNames =
             { "n/a", "<EOF>", "ADD", "SUB", "MUL", "DIV", "LPAREN", "RPAREN", "NUM", "ID", "KEYWORDS", "ARROW" };
-        private static readonly ISet<string> keywords = new HashSet<string>() { "fun", "end" };
+        private static readonly ISet<string> keywords = new HashSet<string>() { "fun", "end", "true", "false" };
 
         public override String GetTokenName(int x) { return tokenNames[x]; }
 
