@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace School
 {
@@ -52,7 +54,7 @@ namespace School
         Core.Expr Surface.IExprVisitor<Core.Expr>.Visit(Surface.FunAbs funAbs)
         {
             Core.Expr bodyExpr = funAbs.BodyExpr.Accept(this);
-            return new Core.FunAbs(funAbs.ArgId, bodyExpr);
+            return funAbs.ArgIds.Reverse().Aggregate(bodyExpr, (body, id) => new Core.FunAbs(id, body));
         }
 
         Core.Expr Surface.IExprVisitor<Core.Expr>.Visit(Surface.FunApp funApp)

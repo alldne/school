@@ -59,8 +59,12 @@ namespace School
         object Surface.IExprVisitor<object>.Visit(Surface.FunAbs funAbs)
         {
             Console.Write("fun ");
-            Console.Write(funAbs.ArgId);
-            Console.Write(" -> ");
+            foreach (var argId in funAbs.ArgIds)
+            {
+                Console.Write(argId);
+                Console.Write(" ");
+            }
+            Console.Write("-> ");
             funAbs.BodyExpr.Accept(this);
             Console.Write(" end");
             return null;

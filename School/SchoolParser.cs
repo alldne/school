@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace School
 {
@@ -137,15 +138,13 @@ namespace School
                 case SchoolLexer.KEYWORDS:
                     MatchKeyword("fun");
 
-                    if (lookahead.Type != SchoolLexer.ID)
-                        throw new ParserException("expecting id; found " + lookahead);
-                    Id argId = Id.id(lookahead.Text);
-                    Consume();
+                    IList<Id> argIds = ArgIds();
+
                     if (lookahead.Type != SchoolLexer.ARROW)
                         throw new ParserException("expecting arrow; found " + lookahead);
                     Consume();
                     Surface.Expr bodyExpr = Expr();
-                    expr = new Surface.FunAbs(argId, bodyExpr);
+                    expr = new Surface.FunAbs(argIds, bodyExpr);
 
                     MatchKeyword("end");
                     break;
@@ -154,6 +153,22 @@ namespace School
             }
 
             return expr;
+        }
+
+        private IList<Id> ArgIds()
+        {
+            if (lookahead.Type != SchoolLexer.ID)
+                throw new ParserException("expecting id; found " + lookahead);
+
+            var argIds = new List<Id>();
+            do
+            {
+                Id argId = Id.id(lookahead.Text);
+                argIds.Add(argId);
+                Consume();
+            } while (lookahead.Type == SchoolLexer.ID);
+
+            return argIds;
         }
 
         private void MatchKeyword(string keyword)

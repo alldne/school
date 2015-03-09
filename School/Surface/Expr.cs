@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace School.Surface
 {
@@ -41,12 +42,12 @@ namespace School.Surface
 
     public class FunAbs : Expr
     {
-        private readonly Id argId;
+        private readonly IList<Id> argIds;
         private readonly Expr bodyExpr;
 
-        public Id ArgId
+        public IList<Id> ArgIds
         {
-            get { return argId; }
+            get { return argIds; }
         }
 
         public Expr BodyExpr
@@ -54,9 +55,9 @@ namespace School.Surface
             get { return bodyExpr; }
         }
             
-        public FunAbs(Id argId, Expr bodyExpr)
+        public FunAbs(IList<Id> argIds, Expr bodyExpr)
         {
-            this.argId = argId;
+            this.argIds = argIds;
             this.bodyExpr = bodyExpr;
         }
 
