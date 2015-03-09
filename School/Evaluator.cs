@@ -12,14 +12,6 @@ namespace School
 
     public class Evaluator : Core.IExprVisitor<Value>
     {
-        private static readonly Dictionary<string, Func<Value, Value, Value>> builtinFunctions = new Dictionary<string, Func<Value, Value, Value>>
-        {
-            { "add", BuiltinFunctions.Add },
-            { "sub", BuiltinFunctions.Sub },
-            { "mul", BuiltinFunctions.Mul },
-            { "div", BuiltinFunctions.Div }
-        };
-
         private Env env = Env.Empty;
 
         public Evaluator() { }
@@ -40,7 +32,7 @@ namespace School
             Value arg0 = app.Args[0].Accept(this);
             Value arg1 = app.Args[1].Accept(this);
 
-            Func<Value, Value, Value> func = builtinFunctions[app.Name];
+            Func<Value, Value, Value> func = BuiltinFunctions.Lookup(app.Name);
             return func(arg0, arg1);
         }
 

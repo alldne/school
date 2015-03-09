@@ -1,10 +1,24 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace School
 {
     public static class BuiltinFunctions 
     {
-        public static Value Add(Value a, Value b)
+        private static readonly Dictionary<string, Func<Value, Value, Value>> Dict = new Dictionary<string, Func<Value, Value, Value>>
+        {
+            { "add", Add },
+            { "sub", Sub },
+            { "mul", Mul },
+            { "div", Div }
+        };
+
+        public static Func<Value, Value, Value> Lookup(string name)
+        {
+            return Dict[name];
+        }
+
+        private static Value Add(Value a, Value b)
         {
             IntValue aValue = a as IntValue;
             IntValue bValue = b as IntValue;
@@ -14,7 +28,7 @@ namespace School
             return new IntValue(aValue.Value + bValue.Value);
         }
 
-        public static Value Sub(Value a, Value b)
+        private static Value Sub(Value a, Value b)
         {
             IntValue aValue = a as IntValue;
             IntValue bValue = b as IntValue;
@@ -24,7 +38,7 @@ namespace School
             return new IntValue(aValue.Value - bValue.Value);
         }
 
-        public static Value Mul(Value a, Value b)
+        private static Value Mul(Value a, Value b)
         {
             IntValue aValue = a as IntValue;
             IntValue bValue = b as IntValue;
@@ -34,7 +48,7 @@ namespace School
             return new IntValue(aValue.Value * bValue.Value);
         }
 
-        public static Value Div(Value a, Value b)
+        private static Value Div(Value a, Value b)
         {
             IntValue aValue = a as IntValue;
             IntValue bValue = b as IntValue;
