@@ -53,6 +53,7 @@
     <Compile Include="Value.cs" />
     <Compile Include="BuiltinFunctions.cs" />
     <Compile Include="Test\SchoolTest.cs" />
+    <Compile Include="REPL.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
