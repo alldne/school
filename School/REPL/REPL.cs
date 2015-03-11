@@ -1,7 +1,7 @@
 ﻿using System;
 using Mono.Terminal;
 
-namespace School
+namespace School.REPL
 {
     public class REPL
     {

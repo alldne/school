@@ -6,7 +6,7 @@ namespace School
     {
         public static void Main(string[] args)
         {
-            REPL repl = new REPL();
+            REPL.REPL repl = new REPL.REPL();
             repl.Run();
         }
     }

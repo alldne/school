@@ -53,14 +53,15 @@
     <Compile Include="Value.cs" />
     <Compile Include="BuiltinFunctions.cs" />
     <Compile Include="Test\SchoolTest.cs" />
-    <Compile Include="REPL.cs" />
-    <Compile Include="getline.cs" />
+    <Compile Include="REPL\getline.cs" />
+    <Compile Include="REPL\REPL.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
     <Folder Include="Surface\" />
     <Folder Include="Core\" />
     <Folder Include="Test\" />
+    <Folder Include="REPL\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
