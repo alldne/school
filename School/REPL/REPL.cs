@@ -18,11 +18,14 @@ namespace School.REPL
             string line;
             while ((line = editor.Edit("> ", "")) != null)
             {
-                try {
-                    Value value = evaluator.Evaluate(line);
-                    Console.WriteLine(value);
-                } catch (Exception e) {
-                    Console.WriteLine(e);
+                if (!String.IsNullOrWhiteSpace(line))
+                {
+                    try {
+                        Value value = evaluator.Evaluate(line);
+                        Console.WriteLine(value);
+                    } catch (Exception e) {
+                        Console.WriteLine(e);
+                    }
                 }
             }
         }
