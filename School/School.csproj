@@ -54,6 +54,7 @@
     <Compile Include="BuiltinFunctions.cs" />
     <Compile Include="Test\SchoolTest.cs" />
     <Compile Include="REPL.cs" />
+    <Compile Include="getline.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
