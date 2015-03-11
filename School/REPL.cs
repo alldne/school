@@ -1,4 +1,5 @@
 ﻿using System;
+using Mono.Terminal;
 
 namespace School
 {
@@ -11,23 +12,19 @@ namespace School
         public void Run()
         {
             Evaluator evaluator = new Evaluator();
-            string line;
+            LineEditor editor = new LineEditor("School");
 
             Console.WriteLine("School REPL:");
-            do
+            string line;
+            while ((line = editor.Edit("> ", "")) != null)
             {
-                Console.Write("> ");
-                line = Console.ReadLine();
-                if (!String.IsNullOrEmpty(line))
-                {
-                    try {
-                        Value value = evaluator.Evaluate(line);
-                        Console.WriteLine(value);
-                    } catch (Exception e) {
-                        Console.WriteLine(e);
-                    }
+                try {
+                    Value value = evaluator.Evaluate(line);
+                    Console.WriteLine(value);
+                } catch (Exception e) {
+                    Console.WriteLine(e);
                 }
-            } while (line != null);
+            }
         }
     }
 }
