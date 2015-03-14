@@ -44,17 +44,17 @@
     <Compile Include="Parser.cs" />
     <Compile Include="SchoolParser.cs" />
     <Compile Include="Printer.cs" />
-    <Compile Include="Evaluator.cs" />
     <Compile Include="Surface\Expr.cs" />
     <Compile Include="Core\Expr.cs" />
     <Compile Include="Desugarer.cs" />
-    <Compile Include="Env.cs" />
     <Compile Include="Id.cs" />
-    <Compile Include="Value.cs" />
-    <Compile Include="BuiltinFunctions.cs" />
     <Compile Include="Test\SchoolTest.cs" />
     <Compile Include="REPL\getline.cs" />
     <Compile Include="REPL\REPL.cs" />
+    <Compile Include="Evaluator\Value.cs" />
+    <Compile Include="Evaluator\Evaluator.cs" />
+    <Compile Include="Evaluator\Env.cs" />
+    <Compile Include="Evaluator\BuiltinFunctions.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -62,6 +62,7 @@
     <Folder Include="Core\" />
     <Folder Include="Test\" />
     <Folder Include="REPL\" />
+    <Folder Include="Evaluator\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

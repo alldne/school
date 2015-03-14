@@ -1,8 +1,9 @@
 ﻿using System;
 
-namespace School
+namespace School.Test
 {
     using NUnit.Framework;
+    using School.Evaluator;
 
     [TestFixture]
     public class SchoolTest

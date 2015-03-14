@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace School
+namespace School.Evaluator
 {
     public abstract class Value
     {

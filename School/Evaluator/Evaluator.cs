@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace School
+namespace School.Evaluator
 {
     public class RuntimeTypeError : Exception
     {

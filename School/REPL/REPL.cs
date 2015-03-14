@@ -11,7 +11,7 @@ namespace School.REPL
 
         public void Run()
         {
-            Evaluator evaluator = new Evaluator();
+            var evaluator = new Evaluator.Evaluator();
             LineEditor editor = new LineEditor("School");
 
             Console.WriteLine("School REPL:");
@@ -22,7 +22,7 @@ namespace School.REPL
                     continue;
 
                 try {
-                    Value value = evaluator.Evaluate(line);
+                    Evaluator.Value value = evaluator.Evaluate(line);
                     Console.WriteLine(value);
                 } catch (Exception e) {
                     Console.WriteLine(e);
