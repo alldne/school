@@ -121,5 +121,12 @@ namespace School
             IntValue value2 = Evaluate("if false then 1 else 2") as IntValue;
             Assert.AreEqual(value2.Value, 2);
         }
+
+        [Test]
+        public void TestUnit()
+        {
+            Value value = Evaluate("()");
+            Assert.AreEqual(UnitValue.Singleton, value);
+        }
     }
 }

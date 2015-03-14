@@ -16,8 +16,9 @@ namespace School
         public const int ID = 9;
         public const int KEYWORD = 10;
         public const int ARROW = 11;
+        public const int UNIT = 12;
         public static readonly string[] tokenNames =
-            { "n/a", "<EOF>", "ADD", "SUB", "MUL", "DIV", "LPAREN", "RPAREN", "NUM", "ID", "KEYWORDS", "ARROW" };
+            { "n/a", "<EOF>", "ADD", "SUB", "MUL", "DIV", "LPAREN", "RPAREN", "NUM", "ID", "KEYWORDS", "ARROW", "UNIT" };
         private static readonly ISet<string> keywords = new HashSet<string>() { "fun", "end", "true", "false", "if", "then", "else" };
 
         public override String GetTokenName(int x) { return tokenNames[x]; }
@@ -55,6 +56,11 @@ namespace School
                         return new Token(DIV, "/");
                     case '(':
                         Consume();
+                        if (c == ')')
+                        {
+                            Consume();
+                            return new Token(UNIT, "()");
+                        }
                         return new Token(LPAREN, "(");
                     case ')':
                         Consume();

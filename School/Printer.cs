@@ -11,6 +11,12 @@ namespace School
             expr.Accept(this);
         }
 
+        object Surface.IExprVisitor<object>.Visit(Surface.Unit unit)
+        {
+            Console.Write(unit.ToString());
+            return null;
+        }
+
         object Surface.IExprVisitor<object>.Visit(Surface.Number number)
         {
             Console.Write(number.Value);

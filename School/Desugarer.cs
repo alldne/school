@@ -13,6 +13,11 @@ namespace School
             return expr.Accept(this);
         }
 
+        Core.Expr Surface.IExprVisitor<Core.Expr>.Visit(Surface.Unit unit)
+        {
+            return Core.Unit.Singleton;
+        }
+
         Core.Expr Surface.IExprVisitor<Core.Expr>.Visit(Surface.Number number)
         {
             return new Core.Number(number.Value);

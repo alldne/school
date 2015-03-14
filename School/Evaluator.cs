@@ -33,6 +33,11 @@ namespace School
             return Evaluate(coreExpr);
         }
 
+        Value Core.IExprVisitor<Value>.Visit(Core.Unit unit)
+        {
+            return UnitValue.Singleton;
+        }
+
         Value Core.IExprVisitor<Value>.Visit(Core.Number number)
         {
             return new IntValue(number.Value);

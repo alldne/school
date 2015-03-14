@@ -4,6 +4,7 @@ namespace School.Core
 {
     public interface IExprVisitor<R>
     {
+        R Visit(Unit unit);
         R Visit(Number number);
         R Visit(Boolean b);
         R Visit(BuiltinFunApp app);
@@ -120,6 +121,20 @@ namespace School.Core
             this.thenExpr = thenExpr;
             this.elseExpr = elseExpr;
             }
+
+        public override R Accept<R>(IExprVisitor<R> visitor)
+        {
+            return visitor.Visit(this);
+        }
+    }
+
+    public class Unit : Expr
+    {
+        public static readonly Unit Singleton = new Unit();
+
+        private Unit()
+        {
+        }
 
         public override R Accept<R>(IExprVisitor<R> visitor)
         {

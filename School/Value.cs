@@ -6,6 +6,20 @@ namespace School
     {
     }
 
+    public sealed class UnitValue : Value
+    {
+        public static readonly UnitValue Singleton = new UnitValue();
+
+        private UnitValue()
+        {
+        }
+
+        public override string ToString()
+        {
+            return "()";
+        }
+    }
+
     public class IntValue : Value
     {
         private readonly int value;

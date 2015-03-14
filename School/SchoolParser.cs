@@ -71,6 +71,7 @@ namespace School
                     else
                         return false;
                 case SchoolLexer.LPAREN:
+                case SchoolLexer.UNIT:
                 case SchoolLexer.NUM:
                 case SchoolLexer.ID:
                     return true;
@@ -102,6 +103,10 @@ namespace School
                     Match(SchoolLexer.LPAREN);
                     expr = ParseExpr();
                     Match(SchoolLexer.RPAREN);
+                    break;
+                case SchoolLexer.UNIT:
+                    expr = Surface.Unit.Singleton;
+                    Consume();
                     break;
                 case SchoolLexer.NUM:
                     string numberText = lookahead.Text;
