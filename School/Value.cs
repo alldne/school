@@ -42,6 +42,9 @@ namespace School
 
     public class BooleanValue : Value
     {
+        public static readonly BooleanValue True = new BooleanValue(true);
+        public static readonly BooleanValue False = new BooleanValue(false);
+
         private readonly bool value;
 
         public bool Value
@@ -49,7 +52,7 @@ namespace School
             get { return value; }
         }
 
-        public BooleanValue(bool value)
+        private BooleanValue(bool value)
         {
             this.value = value;
         }

@@ -45,7 +45,7 @@ namespace School
 
         Value Core.IExprVisitor<Value>.Visit(Core.Boolean b)
         {
-            return new BooleanValue(b.Value);
+            return b.Value ? BooleanValue.True : BooleanValue.False;
         }
 
         Value Core.IExprVisitor<Value>.Visit(Core.BuiltinFunApp app)
