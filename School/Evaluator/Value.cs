@@ -40,7 +40,7 @@ namespace School.Evaluator
         }
     }
 
-    public class BooleanValue : Value
+    public sealed class BooleanValue : Value
     {
         public static readonly BooleanValue True = new BooleanValue(true);
         public static readonly BooleanValue False = new BooleanValue(false);
