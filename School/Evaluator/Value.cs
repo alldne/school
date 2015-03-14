@@ -59,7 +59,7 @@ namespace School.Evaluator
 
         public override string ToString()
         {
-            return value.ToString();
+            return value ? "true" : "false";
         }
     }
 
