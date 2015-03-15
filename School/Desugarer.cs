@@ -32,28 +32,28 @@ namespace School
         {
             Core.Expr left = add.Left.Accept(this);
             Core.Expr right = add.Right.Accept(this);
-            return new Core.BuiltinFunApp("add", new Core.Expr[] { left, right });
+            return new Core.BinaryOperator("add", left, right);
         }
 
         Core.Expr Surface.IExprVisitor<Core.Expr>.Visit(Surface.Sub sub)
         {
             Core.Expr left = sub.Left.Accept(this);
             Core.Expr right = sub.Right.Accept(this);
-            return new Core.BuiltinFunApp("sub", new Core.Expr[] { left, right });
+            return new Core.BinaryOperator("sub", left, right);
         }
 
         Core.Expr Surface.IExprVisitor<Core.Expr>.Visit(Surface.Mul mul)
         {
             Core.Expr left = mul.Left.Accept(this);
             Core.Expr right = mul.Right.Accept(this);
-            return new Core.BuiltinFunApp("mul", new Core.Expr[] { left, right });
+            return new Core.BinaryOperator("mul", left, right);
         }
 
         Core.Expr Surface.IExprVisitor<Core.Expr>.Visit(Surface.Div div)
         {
             Core.Expr left = div.Left.Accept(this);
             Core.Expr right = div.Right.Accept(this);
-            return new Core.BuiltinFunApp("div", new Core.Expr[] { left, right });
+            return new Core.BinaryOperator("div", left, right);
         }
 
         Core.Expr Surface.IExprVisitor<Core.Expr>.Visit(Surface.IdExpr idExpr)

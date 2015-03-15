@@ -7,7 +7,7 @@ namespace School.Core
         R Visit(Unit unit);
         R Visit(Number number);
         R Visit(Boolean b);
-        R Visit(BuiltinFunApp app);
+        R Visit(BinaryOperator app);
         R Visit(IdExpr idExpr);
         R Visit(FunAbs funAbs);
         R Visit(FunApp funApp);
@@ -182,26 +182,33 @@ namespace School.Core
         }
     }
 
-    public class BuiltinFunApp : Expr
+    public class BinaryOperator : Expr
     {
         private readonly string name;
 
-        private readonly Expr[] args;
+        private readonly Expr left;
+        private readonly Expr right;
 
         public string Name
         {
             get { return name; }
         }
 
-        public Expr[] Args
+        public Expr Left
         {
-            get { return args; }
+            get { return left; }
+        }
+
+        public Expr Right
+        {
+            get { return right; }
         }
             
-        public BuiltinFunApp(string name, Expr[] args)
+        public BinaryOperator(string name, Expr left, Expr right)
         {
             this.name = name;
-            this.args = args;
+            this.left = left;
+            this.right = right;
         }
 
         public override R Accept<R>(IExprVisitor<R> visitor)

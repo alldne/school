@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace School.Evaluator
 {
-    public static class BuiltinFunctions 
+    public static class BinaryOperators 
     {
         private static readonly Dictionary<string, Func<Value, Value, Value>> Dict = new Dictionary<string, Func<Value, Value, Value>>
         {

@@ -48,14 +48,13 @@ namespace School.Evaluator
             return b.Value ? BooleanValue.True : BooleanValue.False;
         }
 
-        Value Core.IExprVisitor<Value>.Visit(Core.BuiltinFunApp app)
+        Value Core.IExprVisitor<Value>.Visit(Core.BinaryOperator app)
         {
-            // FIXME: Currently, we assume that all builtin functions are binary.
-            Value arg0 = app.Args[0].Accept(this);
-            Value arg1 = app.Args[1].Accept(this);
+            Value left = app.Left.Accept(this);
+            Value right = app.Right.Accept(this);
 
-            Func<Value, Value, Value> func = BuiltinFunctions.Lookup(app.Name);
-            return func(arg0, arg1);
+            Func<Value, Value, Value> func = BinaryOperators.Lookup(app.Name);
+            return func(left, right);
         }
 
         Value Core.IExprVisitor<Value>.Visit(Core.IdExpr idExpr)
