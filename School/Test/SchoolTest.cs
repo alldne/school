@@ -18,57 +18,57 @@ namespace School.Test
         public void TestBooleanLiteral()
         {
             BooleanValue trueValue = Evaluate("true") as BooleanValue;
-            Assert.AreEqual(trueValue.Value, true);
+            Assert.AreEqual(true, trueValue.Value);
 
             BooleanValue falseValue = Evaluate("false") as BooleanValue;
-            Assert.AreEqual(falseValue.Value, false);
+            Assert.AreEqual(false, falseValue.Value);
         }
 
         [Test]
         public void TestIntLiteral()
         {
             IntValue value = Evaluate("1") as IntValue;
-            Assert.AreEqual(value.Value, 1);
+            Assert.AreEqual(1, value.Value);
         }
 
         [Test]
         public void TestAdd()
         {
             IntValue value1 = Evaluate("1 + 2") as IntValue;
-            Assert.AreEqual(value1.Value, 3);
+            Assert.AreEqual(3, value1.Value);
 
             IntValue value2 = Evaluate("1 + 2 + 3") as IntValue;
-            Assert.AreEqual(value2.Value, 6);
+            Assert.AreEqual(6, value2.Value);
         }
 
         [Test]
         public void TestSub()
         {
             IntValue value1 = Evaluate("2 - 1") as IntValue;
-            Assert.AreEqual(value1.Value, 1);
+            Assert.AreEqual(1, value1.Value);
 
             IntValue value2 = Evaluate("3 - 2 - 1") as IntValue;
-            Assert.AreEqual(value2.Value, 0);
+            Assert.AreEqual(0, value2.Value);
         }
 
         [Test]
         public void TestMul()
         {
             IntValue value1 = Evaluate("2 * 3") as IntValue;
-            Assert.AreEqual(value1.Value, 6);
+            Assert.AreEqual(6, value1.Value);
 
             IntValue value2 = Evaluate("2 * 3 * 4") as IntValue;
-            Assert.AreEqual(value2.Value, 24);
+            Assert.AreEqual(24, value2.Value);
         }
 
         [Test]
         public void TestDiv()
         {
             IntValue value1 = Evaluate("6 / 2") as IntValue;
-            Assert.AreEqual(value1.Value, 3);
+            Assert.AreEqual(3, value1.Value);
 
             IntValue value2 = Evaluate("12 / 4 / 3") as IntValue;
-            Assert.AreEqual(value2.Value, 1);
+            Assert.AreEqual(1, value2.Value);
         }
 
         [Test]
@@ -84,43 +84,43 @@ namespace School.Test
             FunValue fun = Evaluate("fun x -> x end") as FunValue;
             IntValue arg = new IntValue(1);
             IntValue result = fun.Apply(arg) as IntValue;
-            Assert.AreEqual(result.Value, 1);
+            Assert.AreEqual(1, result.Value);
         }
 
         [Test]
         public void TestFunApp()
         {
             IntValue value = Evaluate("(fun x -> x end) 1") as IntValue;
-            Assert.AreEqual(value.Value, 1);
+            Assert.AreEqual(1, value.Value);
         }
 
         [Test]
         public void TestMultiArgFun()
         {
             IntValue value = Evaluate("(fun x y -> x + y end) 1 2") as IntValue;
-            Assert.AreEqual(value.Value, 3);
+            Assert.AreEqual(3, value.Value);
         }
 
         [Test]
         public void TestCurryingFun()
         {
             IntValue value = Evaluate("(fun x -> fun y -> x + y end end) 1 2") as IntValue;
-            Assert.AreEqual(value.Value, 3);
+            Assert.AreEqual(3, value.Value);
 
             FunValue fun = Evaluate("(fun x -> fun y -> x + y end end) 1") as FunValue;
             IntValue arg = new IntValue(2);
             IntValue result = fun.Apply(arg) as IntValue;
-            Assert.AreEqual(result.Value, 3);
+            Assert.AreEqual(3, result.Value);
         }
 
         [Test]
         public void TestIf()
         {
             IntValue value1 = Evaluate("if true then 1 else 2") as IntValue;
-            Assert.AreEqual(value1.Value, 1);
+            Assert.AreEqual(1, value1.Value);
 
             IntValue value2 = Evaluate("if false then 1 else 2") as IntValue;
-            Assert.AreEqual(value2.Value, 2);
+            Assert.AreEqual(2, value2.Value);
         }
 
         [Test]
