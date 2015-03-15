@@ -28,6 +28,12 @@ namespace School
             return new Core.Boolean(b.Value);
         }
 
+        Core.Expr Surface.IExprVisitor<Core.Expr>.Visit(Surface.List list)
+        {
+            IList<Core.Expr> elements = list.Elements.Select(e => e.Accept(this)).ToList();
+            return new Core.List(elements);
+        }
+
         Core.Expr Surface.IExprVisitor<Core.Expr>.Visit(Surface.Add add)
         {
             Core.Expr left = add.Left.Accept(this);

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace School.Evaluator
 {
@@ -46,6 +47,12 @@ namespace School.Evaluator
         Value Core.IExprVisitor<Value>.Visit(Core.Boolean b)
         {
             return b.Value ? BooleanValue.True : BooleanValue.False;
+        }
+
+        Value Core.IExprVisitor<Value>.Visit(Core.List list)
+        {
+            IList<Value> values = list.Elements.Select(e => e.Accept(this)).ToList();
+            return new ListValue(values);
         }
 
         Value Core.IExprVisitor<Value>.Visit(Core.BinaryOperator app)

@@ -99,6 +99,21 @@ namespace School
 
             switch (lookahead.Type)
             {
+                case SchoolLexer.LBRACKET:
+                    Match(SchoolLexer.LBRACKET);
+                    IList<Surface.Expr> elements = new List<Surface.Expr>();
+                    if (lookahead.Type != SchoolLexer.RBRACKET)
+                    {
+                        elements.Add(ParseExpr());
+                        while (lookahead.Type == SchoolLexer.COMMNA)
+                        {
+                            Consume();
+                            elements.Add(ParseExpr());
+                        }
+                    }
+                    expr = new Surface.List(elements);
+                    Match(SchoolLexer.RBRACKET);
+                    break;
                 case SchoolLexer.LPAREN:
                     Match(SchoolLexer.LPAREN);
                     expr = ParseExpr();

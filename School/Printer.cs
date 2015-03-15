@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 
 namespace School
 {
@@ -26,6 +27,18 @@ namespace School
         object Surface.IExprVisitor<object>.Visit(Surface.Boolean b)
         {
             Console.Write(b.Value);
+            return null;
+        }
+
+        object Surface.IExprVisitor<object>.Visit(Surface.List list)
+        {
+            Console.Write("[");
+            foreach (var e in list.Elements)
+            {
+                e.Accept(this);
+                Console.Write(","); // FIXME: Don't write the last commna.
+            }
+            Console.Write("]");
             return null;
         }
 

@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 
 namespace School.Evaluator
 {
@@ -95,6 +98,31 @@ namespace School.Evaluator
         public override Value Apply(Value arg1)
         {
             return new FunValue1((arg2) => value(arg1, arg2));
+        }
+    }
+
+    public class ListValue : Value
+    {
+        private readonly IList<Value> elements;
+
+        public IList<Value> Elements
+        {
+            get { return elements; }
+        }
+
+        public ListValue(IList<Value> elements)
+        {
+            this.elements = elements;
+        }
+
+        public override string ToString()
+        {
+            StringBuilder builder = new StringBuilder();
+            builder.Append("[");
+            foreach (var s in elements.Select(e => e.ToString()).Intersperse(","))
+                builder.Append(s);
+            builder.Append("]");
+            return builder.ToString();
         }
     }
 }

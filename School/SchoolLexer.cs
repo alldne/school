@@ -17,8 +17,11 @@ namespace School
         public const int KEYWORD = 10;
         public const int ARROW = 11;
         public const int UNIT = 12;
+        public const int LBRACKET = 13;
+        public const int RBRACKET = 14;
+        public const int COMMNA = 15;
         public static readonly string[] tokenNames =
-            { "n/a", "<EOF>", "ADD", "SUB", "MUL", "DIV", "LPAREN", "RPAREN", "NUM", "ID", "KEYWORDS", "ARROW", "UNIT" };
+            { "n/a", "<EOF>", "ADD", "SUB", "MUL", "DIV", "LPAREN", "RPAREN", "NUM", "ID", "KEYWORDS", "ARROW", "UNIT", "LBRACKET", "RBRACKET", "COMMA" };
         private static readonly ISet<string> keywords = new HashSet<string>() { "fun", "end", "true", "false", "if", "then", "else" };
 
         public override String GetTokenName(int x) { return tokenNames[x]; }
@@ -65,6 +68,15 @@ namespace School
                     case ')':
                         Consume();
                         return new Token(RPAREN, ")");
+                    case '[':
+                        Consume();
+                        return new Token(LBRACKET, "[");
+                    case ']':
+                        Consume();
+                        return new Token(RBRACKET, "]");
+                    case ',':
+                        Consume();
+                        return new Token(COMMNA, ",");
                     default:
                         if (IsLetter())
                             return IDENTIFIER_OR_KEYWORDS();

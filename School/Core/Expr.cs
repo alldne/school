@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace School.Core
 {
@@ -7,6 +8,7 @@ namespace School.Core
         R Visit(Unit unit);
         R Visit(Number number);
         R Visit(Boolean b);
+        R Visit(List list);
         R Visit(BinaryOperator app);
         R Visit(IdExpr idExpr);
         R Visit(FunAbs funAbs);
@@ -174,6 +176,26 @@ namespace School.Core
         public Boolean(bool value)
         {
             this.value = value;
+        }
+
+        public override R Accept<R>(IExprVisitor<R> visitor)
+        {
+            return visitor.Visit(this);
+        }
+    }
+
+    public class List : Expr
+    {
+        private readonly IList<Expr> elements;
+
+        public IList<Expr> Elements
+        {
+            get { return elements; }
+        }
+
+        public List(IList<Expr> elements)
+        {
+            this.elements = elements;
         }
 
         public override R Accept<R>(IExprVisitor<R> visitor)
