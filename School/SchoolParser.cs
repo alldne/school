@@ -71,6 +71,7 @@ namespace School
                     else
                         return false;
                 case SchoolLexer.LPAREN:
+                case SchoolLexer.LBRACKET:
                 case SchoolLexer.UNIT:
                 case SchoolLexer.NUM:
                 case SchoolLexer.ID:
