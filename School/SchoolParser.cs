@@ -101,19 +101,7 @@ namespace School
             switch (lookahead.Type)
             {
                 case SchoolLexer.LBRACKET:
-                    Match(SchoolLexer.LBRACKET);
-                    IList<Surface.Expr> elements = new List<Surface.Expr>();
-                    if (lookahead.Type != SchoolLexer.RBRACKET)
-                    {
-                        elements.Add(ParseExpr());
-                        while (lookahead.Type == SchoolLexer.COMMNA)
-                        {
-                            Consume();
-                            elements.Add(ParseExpr());
-                        }
-                    }
-                    expr = new Surface.List(elements);
-                    Match(SchoolLexer.RBRACKET);
+                    expr = ParseList();
                     break;
                 case SchoolLexer.LPAREN:
                     Match(SchoolLexer.LPAREN);
@@ -146,6 +134,24 @@ namespace School
                     throw new ParserException("expecting number; found " + lookahead);
             }
 
+            return expr;
+        }
+
+        private Surface.Expr ParseList()
+        {
+            Match(SchoolLexer.LBRACKET);
+            IList<Surface.Expr> elements = new List<Surface.Expr>();
+            if (lookahead.Type != SchoolLexer.RBRACKET)
+            {
+                elements.Add(ParseExpr());
+                while (lookahead.Type == SchoolLexer.COMMNA)
+                {
+                    Consume();
+                    elements.Add(ParseExpr());
+                }
+            }
+            Surface.Expr expr = new Surface.List(elements);
+            Match(SchoolLexer.RBRACKET);
             return expr;
         }
 
