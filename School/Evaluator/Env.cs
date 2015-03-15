@@ -36,7 +36,12 @@ namespace School.Evaluator
         public Value Lookup(Id id)
         {
             if (this == Empty)
-                throw new UnknownIdentifierException("Unknown identifier " + id.ToString());
+            {
+                Value v = Prelude.Lookup(id.ToString());
+                if (v == UnitValue.Singleton)
+                    throw new UnknownIdentifierException("Unknown identifier " + id.ToString());
+                return v;
+            }
 
             if (id == this.id)
                 return value;

@@ -63,23 +63,38 @@ namespace School.Evaluator
         }
     }
 
-    public class FunValue : Value
+    public abstract class FunValue : Value
+    {
+        public abstract Value Apply(Value arg);
+    }
+
+    public class FunValue1 : FunValue
     {
         private readonly Func<Value, Value> value;
 
-        public Func<Value, Value> Value
-        {
-            get { return value; }
-        }
-
-        public FunValue(Func<Value, Value> value)
+        public FunValue1(Func<Value, Value> value)
         {
             this.value = value;
         }
 
-        public Value Apply(Value arg)
+        public override Value Apply(Value arg)
         {
             return value(arg);
+        }
+    }
+
+    public class FunValue2 : FunValue
+    {
+        private readonly Func<Value, Value, Value> value;
+
+        public FunValue2(Func<Value, Value, Value> value)
+        {
+            this.value = value;
+        }
+
+        public override Value Apply(Value arg1)
+        {
+            return new FunValue1((arg2) => value(arg1, arg2));
         }
     }
 }

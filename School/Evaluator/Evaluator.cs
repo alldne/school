@@ -73,7 +73,7 @@ namespace School.Evaluator
                     this.env = oldEnv;
                     return result;
             };
-            return new FunValue(fun);
+            return new FunValue1(fun);
         }
 
         Value Core.IExprVisitor<Value>.Visit(Core.FunApp funApp)
