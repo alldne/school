@@ -37,10 +37,16 @@ namespace School
         object Surface.IExprVisitor<object>.Visit(Surface.List list)
         {
             builder.Append("[");
-            foreach (var e in list.Elements)
+            var e = list.Elements.GetEnumerator();
+            if (e.MoveNext())
             {
-                e.Accept(this);
-                builder.Append(","); // FIXME: Don't write the last commna.
+                var item = e.Current;
+                while (e.MoveNext())
+                {
+                    item.Accept(this);
+                    builder.Append(",");
+                }
+                item.Accept(this); // Last item
             }
             builder.Append("]");
             return null;
