@@ -69,6 +69,14 @@ namespace School.Evaluator
     public abstract class FunValue : Value
     {
         public abstract Value Apply(Value arg);
+
+        public Value Apply(Value arg1, Value arg2)
+        {
+            FunValue fun = Apply(arg1) as FunValue;
+            if (fun == null)
+                throw new RuntimeTypeError("fun expected");
+            return fun.Apply(arg2);
+        }
     }
 
     public class FunValue1 : FunValue
@@ -98,6 +106,21 @@ namespace School.Evaluator
         public override Value Apply(Value arg1)
         {
             return new FunValue1((arg2) => value(arg1, arg2));
+        }
+    }
+
+    public class FunValue3 : FunValue
+    {
+        private readonly Func<Value, Value, Value, Value> value;
+
+        public FunValue3(Func<Value, Value, Value, Value> value)
+        {
+            this.value = value;
+        }
+
+        public override Value Apply(Value arg1)
+        {
+            return new FunValue2((arg2, arg3) => value(arg1, arg2, arg3));
         }
     }
 
