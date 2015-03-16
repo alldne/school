@@ -70,5 +70,6 @@
   <ItemGroup>
     <None Include="packages.config" />
     <None Include="Examples\helloworld.sc" />
+    <None Include="Examples\unitlist.sc" />
   </ItemGroup>
 </Project>

@@ -18,7 +18,7 @@ namespace School
 
         object Surface.IExprVisitor<object>.Visit(Surface.Unit unit)
         {
-            builder.Append(unit.ToString());
+            builder.Append("()");
             return null;
         }
 
