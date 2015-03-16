@@ -117,12 +117,7 @@ namespace School.Evaluator
 
         public override string ToString()
         {
-            StringBuilder builder = new StringBuilder();
-            builder.Append("[");
-            foreach (var s in elements.Select(e => e.ToString()).Intersperse(","))
-                builder.Append(s);
-            builder.Append("]");
-            return builder.ToString();
+            return String.Format("[{0}]", String.Join(",", elements.Select(e => e.ToString())));
         }
     }
 }
