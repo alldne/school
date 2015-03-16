@@ -65,8 +65,10 @@
     <Folder Include="Test\" />
     <Folder Include="REPL\" />
     <Folder Include="Evaluator\" />
+    <Folder Include="Examples\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <None Include="Examples\helloworld.sc" />
   </ItemGroup>
 </Project>

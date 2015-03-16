@@ -1,54 +1,58 @@
 ﻿using System;
 using System.Linq;
+using System.Text;
 
 namespace School
 {
     public class Printer : Surface.IExprVisitor<object>
     {
+        private StringBuilder builder = new StringBuilder();
+
         public Printer() { }
 
-        public void Print(Surface.Expr expr)
+        public string Print(Surface.Expr expr)
         {
             expr.Accept(this);
+            return builder.ToString();
         }
 
         object Surface.IExprVisitor<object>.Visit(Surface.Unit unit)
         {
-            Console.Write(unit.ToString());
+            builder.Append(unit.ToString());
             return null;
         }
 
         object Surface.IExprVisitor<object>.Visit(Surface.Number number)
         {
-            Console.Write(number.Value);
+            builder.Append(number.Value.ToString());
             return null;
         }
 
         object Surface.IExprVisitor<object>.Visit(Surface.Boolean b)
         {
-            Console.Write(b.Value);
+            builder.Append(b.Value.ToString());
             return null;
         }
 
         object Surface.IExprVisitor<object>.Visit(Surface.List list)
         {
-            Console.Write("[");
+            builder.Append("[");
             foreach (var e in list.Elements)
             {
                 e.Accept(this);
-                Console.Write(","); // FIXME: Don't write the last commna.
+                builder.Append(","); // FIXME: Don't write the last commna.
             }
-            Console.Write("]");
+            builder.Append("]");
             return null;
         }
 
         private void PrintBinaryOperator(Surface.BinaryOperator binOp, char opChar)
         {
-            Console.Write("(");
+            builder.Append("(");
             binOp.Left.Accept(this);
-            Console.Write(" {0} ", opChar);
+            builder.AppendFormat(" {0} ", opChar);
             binOp.Right.Accept(this);
-            Console.Write(")");
+            builder.Append(")");
         }
 
         object Surface.IExprVisitor<object>.Visit(Surface.Add add)
@@ -77,39 +81,39 @@ namespace School
 
         object Surface.IExprVisitor<object>.Visit(Surface.IdExpr idExpr)
         {
-            Console.Write(idExpr.Id);
+            builder.Append(idExpr.Id.ToString());
             return null;
         }
 
         object Surface.IExprVisitor<object>.Visit(Surface.FunAbs funAbs)
         {
-            Console.Write("fun ");
+            builder.Append("fun ");
             foreach (var argId in funAbs.ArgIds)
             {
-                Console.Write(argId);
-                Console.Write(" ");
+                builder.Append(argId);
+                builder.Append(" ");
             }
-            Console.Write("-> ");
+            builder.Append("-> ");
             funAbs.BodyExpr.Accept(this);
-            Console.Write(" end");
+            builder.Append(" end");
             return null;
         }
 
         object Surface.IExprVisitor<object>.Visit(Surface.FunApp funApp)
         {
             funApp.Fun.Accept(this);
-            Console.Write(" ");
+            builder.Append(" ");
             funApp.Arg.Accept(this);
             return null;
         }
 
         object Surface.IExprVisitor<object>.Visit(Surface.IfExpr ifExpr)
         {
-            Console.Write("if ");
+            builder.Append("if ");
             ifExpr.Cond.Accept(this);
-            Console.Write(" then ");
+            builder.Append(" then ");
             ifExpr.Then.Accept(this);
-            Console.Write(" else ");
+            builder.Append(" else ");
             ifExpr.Else.Accept(this);
             return null;
         }
