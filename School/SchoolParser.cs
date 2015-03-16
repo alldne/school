@@ -130,9 +130,7 @@ namespace School
                     Consume();
                     break;
                 case SchoolLexer.ID:
-                    string idText = lookahead.Text;
-                    expr = new Surface.IdExpr(Id.id(idText));
-                    Consume();
+                    expr = ParseIdExpr();
                     break;
                 case SchoolLexer.KEYWORD:
                     if (lookahead.Text == "true" || lookahead.Text == "false")
@@ -146,6 +144,14 @@ namespace School
                     throw new ParserException("expecting number; found " + lookahead);
             }
 
+            return expr;
+        }
+
+        private Surface.Expr ParseIdExpr()
+        {
+            string idText = lookahead.Text;
+            Surface.Expr expr = new Surface.IdExpr(Id.id(idText));
+            Consume();
             return expr;
         }
 
