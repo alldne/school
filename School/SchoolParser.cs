@@ -27,7 +27,7 @@ namespace School
                 Consume();
                 elements.Add(ParseExpr());
             }
-            return new Surface.ExprList(elements);
+            return elements.Count == 1 ? elements[0] : new Surface.ExprList(elements);
         }
 
         private Surface.Expr ParseExpr()
