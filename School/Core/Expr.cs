@@ -24,14 +24,14 @@ namespace School.Core
 
     public class ExprList : Expr
     {
-        private readonly IList<Expr> exprs;
+        private readonly IReadOnlyList<Expr> exprs;
 
-        public IList<Expr> Exprs
+        public IReadOnlyList<Expr> Exprs
         {
             get { return exprs; }
         }
 
-        public ExprList(IList<Expr> exprs)
+        public ExprList(IReadOnlyList<Expr> exprs)
         {
             this.exprs = exprs;
         }
@@ -207,14 +207,14 @@ namespace School.Core
 
     public class List : Expr
     {
-        private readonly IList<Expr> elements;
+        private readonly IReadOnlyList<Expr> elements;
 
-        public IList<Expr> Elements
+        public IReadOnlyList<Expr> Elements
         {
             get { return elements; }
         }
 
-        public List(IList<Expr> elements)
+        public List(IReadOnlyList<Expr> elements)
         {
             this.elements = elements;
         }

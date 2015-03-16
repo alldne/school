@@ -126,14 +126,14 @@ namespace School.Evaluator
 
     public class ListValue : Value
     {
-        private readonly IList<Value> elements;
+        private readonly IReadOnlyList<Value> elements;
 
-        public IList<Value> Elements
+        public IReadOnlyList<Value> Elements
         {
             get { return elements; }
         }
 
-        public ListValue(IList<Value> elements)
+        public ListValue(IReadOnlyList<Value> elements)
         {
             this.elements = elements;
         }

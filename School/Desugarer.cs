@@ -15,7 +15,7 @@ namespace School
 
         Core.Expr Surface.IExprVisitor<Core.Expr>.Visit(Surface.ExprList exprs)
         {
-            IList<Core.Expr> coreExprs = exprs.Exprs.Select(e => e.Accept(this)).ToList();
+            List<Core.Expr> coreExprs = exprs.Exprs.Select(e => e.Accept(this)).ToList();
             return new Core.ExprList(coreExprs);
         }
 
@@ -36,7 +36,7 @@ namespace School
 
         Core.Expr Surface.IExprVisitor<Core.Expr>.Visit(Surface.List list)
         {
-            IList<Core.Expr> elements = list.Elements.Select(e => e.Accept(this)).ToList();
+            List<Core.Expr> elements = list.Elements.Select(e => e.Accept(this)).ToList();
             return new Core.List(elements);
         }
 

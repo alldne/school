@@ -20,7 +20,7 @@ namespace School
 
         private Surface.Expr ParseExprList()
         {
-            IList<Surface.Expr> elements = new List<Surface.Expr>();
+            List<Surface.Expr> elements = new List<Surface.Expr>();
             elements.Add(ParseExpr());
             while (lookahead.Type == SchoolLexer.SEMICOLON)
             {
@@ -164,7 +164,7 @@ namespace School
         private Surface.Expr ParseList()
         {
             Match(SchoolLexer.LBRACKET);
-            IList<Surface.Expr> elements = new List<Surface.Expr>();
+            List<Surface.Expr> elements = new List<Surface.Expr>();
             if (lookahead.Type != SchoolLexer.RBRACKET)
             {
                 elements.Add(ParseExprList());
@@ -197,7 +197,7 @@ namespace School
 
             MatchKeyword("fun");
 
-            IList<Id> argIds = ParseArgIds();
+            IReadOnlyList<Id> argIds = ParseArgIds();
 
             if (lookahead.Type != SchoolLexer.ARROW)
                 throw new ParserException("expecting arrow; found " + lookahead);
@@ -220,7 +220,7 @@ namespace School
             return new Surface.Boolean(b);
         }
 
-        private IList<Id> ParseArgIds()
+        private IReadOnlyList<Id> ParseArgIds()
         {
             if (lookahead.Type != SchoolLexer.ID)
                 throw new ParserException("expecting id; found " + lookahead);

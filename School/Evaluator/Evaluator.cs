@@ -59,7 +59,7 @@ namespace School.Evaluator
 
         Value Core.IExprVisitor<Value>.Visit(Core.List list)
         {
-            IList<Value> values = list.Elements.Select(e => e.Accept(this)).ToList();
+            List<Value> values = list.Elements.Select(e => e.Accept(this)).ToList();
             return new ListValue(values);
         }
 

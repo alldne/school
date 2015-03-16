@@ -27,14 +27,14 @@ namespace School.Surface
 
     public class ExprList : Expr
     {
-        private readonly IList<Expr> exprs;
+        private readonly IReadOnlyList<Expr> exprs;
 
-        public IList<Expr> Exprs
+        public IReadOnlyList<Expr> Exprs
         {
             get { return exprs; }
         }
 
-        public ExprList(IList<Expr> exprs)
+        public ExprList(IReadOnlyList<Expr> exprs)
         {
             this.exprs = exprs;
         }
@@ -67,10 +67,10 @@ namespace School.Surface
 
     public class FunAbs : Expr
     {
-        private readonly IList<Id> argIds;
+        private readonly IReadOnlyList<Id> argIds;
         private readonly Expr bodyExpr;
 
-        public IList<Id> ArgIds
+        public IReadOnlyList<Id> ArgIds
         {
             get { return argIds; }
         }
@@ -80,7 +80,7 @@ namespace School.Surface
             get { return bodyExpr; }
         }
             
-        public FunAbs(IList<Id> argIds, Expr bodyExpr)
+        public FunAbs(IReadOnlyList<Id> argIds, Expr bodyExpr)
         {
             this.argIds = argIds;
             this.bodyExpr = bodyExpr;
@@ -209,14 +209,14 @@ namespace School.Surface
 
     public class List : Expr
     {
-        private readonly IList<Expr> elements;
+        private readonly IReadOnlyList<Expr> elements;
 
-        public IList<Expr> Elements
+        public IReadOnlyList<Expr> Elements
         {
             get { return elements; }
         }
 
-        public List(IList<Expr> elements)
+        public List(IReadOnlyList<Expr> elements)
         {
             this.elements = elements;
         }
