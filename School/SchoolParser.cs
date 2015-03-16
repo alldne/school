@@ -125,9 +125,7 @@ namespace School
                     Consume();
                     break;
                 case SchoolLexer.NUM:
-                    string numberText = lookahead.Text;
-                    expr = new Surface.Number(Int32.Parse(numberText));
-                    Consume();
+                    expr = ParseNumber();
                     break;
                 case SchoolLexer.ID:
                     expr = ParseIdExpr();
@@ -144,6 +142,14 @@ namespace School
                     throw new ParserException("expecting number; found " + lookahead);
             }
 
+            return expr;
+        }
+
+        private Surface.Expr ParseNumber()
+        {
+            string numberText = lookahead.Text;
+            Surface.Expr expr = new Surface.Number(Int32.Parse(numberText));
+            Consume();
             return expr;
         }
 
