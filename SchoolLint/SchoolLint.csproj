@@ -37,4 +37,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <ProjectReference Include="..\School\School.csproj">
+      <Project>{9DF89CDB-1CF8-45E6-BC4D-6722ED9FA0EE}</Project>
+      <Name>School</Name>
+    </ProjectReference>
+  </ItemGroup>
 </Project>
