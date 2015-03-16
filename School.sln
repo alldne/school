@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "School", "School\School.csproj", "{9DF89CDB-1CF8-45E6-BC4D-6722ED9FA0EE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SchoolLint", "SchoolLint\SchoolLint.csproj", "{E35FDC5F-DB87-41D6-B3C1-F35A0E384F85}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -13,5 +15,9 @@ Global
 		{9DF89CDB-1CF8-45E6-BC4D-6722ED9FA0EE}.Debug|x86.Build.0 = Debug|x86
 		{9DF89CDB-1CF8-45E6-BC4D-6722ED9FA0EE}.Release|x86.ActiveCfg = Release|x86
 		{9DF89CDB-1CF8-45E6-BC4D-6722ED9FA0EE}.Release|x86.Build.0 = Release|x86
+		{E35FDC5F-DB87-41D6-B3C1-F35A0E384F85}.Debug|x86.ActiveCfg = Debug|x86
+		{E35FDC5F-DB87-41D6-B3C1-F35A0E384F85}.Debug|x86.Build.0 = Debug|x86
+		{E35FDC5F-DB87-41D6-B3C1-F35A0E384F85}.Release|x86.ActiveCfg = Release|x86
+		{E35FDC5F-DB87-41D6-B3C1-F35A0E384F85}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 EndGlobal

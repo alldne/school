@@ -1,6 +1,8 @@
 School.userprefs
 School/bin
 School/obj
+SchoolLint/bin
+SchoolLint/obj
 packages
 .nuget
 TestResult.xml
