@@ -6,13 +6,7 @@ namespace School.Evaluator
 {
     public static class Prelude
     {
-        private static Dictionary<string, Value> Dict = new Dictionary<string, Value>()
-        {
-            { "writeLine", new FunValue1(WriteLine) },
-            { "readInt", new FunValue1(ReadInt) },
-            { "pow", new FunValue2(Pow) },
-            { "fold", new FunValue3(Fold) }
-        };
+        private static Dictionary<string, Value> Dict;
 
         public static Value Lookup(string name)
         {
@@ -20,6 +14,21 @@ namespace School.Evaluator
                 return Dict[name];
             else
                 return UnitValue.Singleton;
+        }
+
+        public static void Register(string name, Func<Value, Value> fun)
+        {
+            Dict.Add(name, new FunValue1(fun));
+        }
+
+        public static void Register(string name, Func<Value, Value, Value> fun)
+        {
+            Dict.Add(name, new FunValue2(fun));
+        }
+
+        public static void Register(string name, Func<Value, Value, Value, Value> fun)
+        {
+            Dict.Add(name, new FunValue3(fun));
         }
 
         private static Value WriteLine(Value value)
@@ -55,6 +64,15 @@ namespace School.Evaluator
                 throw new RuntimeTypeError("fun expected");
 
             return list.Elements.Aggregate(seedValue, fun.Apply);
+        }
+
+        static Prelude()
+        {
+            Dict = new Dictionary<string, Value>();
+            Register("writeLine", WriteLine);
+            Register("readInt", ReadInt);
+            Register("pow", Pow);
+            Register("fold", Fold);
         }
     }
 }
