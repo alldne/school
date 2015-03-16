@@ -18,44 +18,44 @@ namespace School.Evaluator
             return Dict[name];
         }
 
-        private static Value Add(Value a, Value b)
+        private static Value Add(Value aValue, Value bValue)
         {
-            IntValue aValue = a as IntValue;
-            IntValue bValue = b as IntValue;
-            if (aValue == null || bValue == null)
+            IntValue a = aValue as IntValue;
+            IntValue b = bValue as IntValue;
+            if (a == null || b == null)
                 throw new RuntimeTypeError("int expected");
 
-            return new IntValue(aValue.Value + bValue.Value);
+            return new IntValue(a.Value + b.Value);
         }
 
-        private static Value Sub(Value a, Value b)
+        private static Value Sub(Value aValue, Value bValue)
         {
-            IntValue aValue = a as IntValue;
-            IntValue bValue = b as IntValue;
-            if (aValue == null || bValue == null)
+            IntValue a = aValue as IntValue;
+            IntValue b = bValue as IntValue;
+            if (a == null || b == null)
                 throw new RuntimeTypeError("int expected");
 
-            return new IntValue(aValue.Value - bValue.Value);
+            return new IntValue(a.Value - b.Value);
         }
 
-        private static Value Mul(Value a, Value b)
+        private static Value Mul(Value aValue, Value bValue)
         {
-            IntValue aValue = a as IntValue;
-            IntValue bValue = b as IntValue;
-            if (aValue == null || bValue == null)
+            IntValue a = aValue as IntValue;
+            IntValue b = bValue as IntValue;
+            if (a == null || b == null)
                 throw new RuntimeTypeError("int expected");
 
-            return new IntValue(aValue.Value * bValue.Value);
+            return new IntValue(a.Value * b.Value);
         }
 
-        private static Value Div(Value a, Value b)
+        private static Value Div(Value aValue, Value bValue)
         {
-            IntValue aValue = a as IntValue;
-            IntValue bValue = b as IntValue;
-            if (aValue == null || bValue == null)
+            IntValue a = aValue as IntValue;
+            IntValue b = bValue as IntValue;
+            if (a == null || b == null)
                 throw new RuntimeTypeError("int expected");
 
-            return new IntValue(aValue.Value / bValue.Value);
+            return new IntValue(a.Value / b.Value);
         }
     }
 }

@@ -34,14 +34,14 @@ namespace School.Evaluator
             return new IntValue(Int32.Parse(line));
         }
 
-        private static Value Pow(Value a, Value b)
+        private static Value Pow(Value aValue, Value bValue)
         {
-            IntValue aValue = a as IntValue;
-            IntValue bValue = b as IntValue;
-            if (aValue == null || bValue == null)
+            IntValue a = aValue as IntValue;
+            IntValue b = bValue as IntValue;
+            if (a == null || b == null)
                 throw new RuntimeTypeError("int expected");
 
-            return new IntValue((int)Math.Pow(aValue.Value, bValue.Value));
+            return new IntValue((int)Math.Pow(a.Value, b.Value));
         }
 
         private static Value Fold(Value listValue, Value seedValue, Value funValue)
