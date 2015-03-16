@@ -27,7 +27,7 @@ namespace School.Surface
 
     public class ExprList : Expr
     {
-        private IList<Expr> exprs;
+        private readonly IList<Expr> exprs;
 
         public IList<Expr> Exprs
         {
