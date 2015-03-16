@@ -12,10 +12,22 @@ namespace School
 
         public Surface.Expr Parse()
         {
-            Surface.Expr expr = ParseExpr();
+            Surface.Expr expr = ParseExprList();
             if (lookahead.Type != SchoolLexer.EOF_TYPE)
                 throw new ParserException("expecting eof; found " + lookahead);
             return expr;
+        }
+
+        private Surface.Expr ParseExprList()
+        {
+            IList<Surface.Expr> elements = new List<Surface.Expr>();
+            elements.Add(ParseExpr());
+            while (lookahead.Type == SchoolLexer.SEMICOLON)
+            {
+                Consume();
+                elements.Add(ParseExpr());
+            }
+            return new Surface.ExprList(elements);
         }
 
         private Surface.Expr ParseExpr()
@@ -105,7 +117,7 @@ namespace School
                     break;
                 case SchoolLexer.LPAREN:
                     Match(SchoolLexer.LPAREN);
-                    expr = ParseExpr();
+                    expr = ParseExprList();
                     Match(SchoolLexer.RPAREN);
                     break;
                 case SchoolLexer.UNIT:
@@ -143,11 +155,11 @@ namespace School
             IList<Surface.Expr> elements = new List<Surface.Expr>();
             if (lookahead.Type != SchoolLexer.RBRACKET)
             {
-                elements.Add(ParseExpr());
+                elements.Add(ParseExprList());
                 while (lookahead.Type == SchoolLexer.COMMNA)
                 {
                     Consume();
-                    elements.Add(ParseExpr());
+                    elements.Add(ParseExprList());
                 }
             }
             Surface.Expr expr = new Surface.List(elements);
@@ -158,11 +170,11 @@ namespace School
         private Surface.Expr ParseIf()
         {
             MatchKeyword("if");
-            Surface.Expr condExpr = ParseExpr();
+            Surface.Expr condExpr = ParseExprList();
             MatchKeyword("then");
-            Surface.Expr thenExpr = ParseExpr();
+            Surface.Expr thenExpr = ParseExprList();
             MatchKeyword("else");
-            Surface.Expr elseExpr = ParseExpr();
+            Surface.Expr elseExpr = ParseExprList();
 
             return new Surface.IfExpr(condExpr, thenExpr, elseExpr);
         }
@@ -178,7 +190,7 @@ namespace School
             if (lookahead.Type != SchoolLexer.ARROW)
                 throw new ParserException("expecting arrow; found " + lookahead);
             Consume();
-            Surface.Expr bodyExpr = ParseExpr();
+            Surface.Expr bodyExpr = ParseExprList();
             expr = new Surface.FunAbs(argIds, bodyExpr);
 
             MatchKeyword("end");

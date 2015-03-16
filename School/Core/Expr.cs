@@ -14,11 +14,32 @@ namespace School.Core
         R Visit(FunAbs funAbs);
         R Visit(FunApp funApp);
         R Visit(IfExpr ifExpr);
+        R Visit(ExprList exprs);
     }
 
     public abstract class Expr
     {
         public abstract R Accept<R>(IExprVisitor<R> visitor);
+    }
+
+    public class ExprList : Expr
+    {
+        private IList<Expr> exprs;
+
+        public IList<Expr> Exprs
+        {
+            get { return exprs; }
+        }
+
+        public ExprList(IList<Expr> exprs)
+        {
+            this.exprs = exprs;
+        }
+
+        public override R Accept<R>(IExprVisitor<R> visitor)
+        {
+            return visitor.Visit(this);
+        }
     }
 
     public class IdExpr : Expr 

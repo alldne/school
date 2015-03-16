@@ -16,6 +16,23 @@ namespace School
             return builder.ToString();
         }
 
+        object Surface.IExprVisitor<object>.Visit(Surface.ExprList exprs)
+        {
+            var e = exprs.Exprs.GetEnumerator();
+            if (e.MoveNext())
+            {
+                var item = e.Current;
+                while (e.MoveNext())
+                {
+                    item.Accept(this);
+                    builder.Append(";");
+                }
+                item.Accept(this); // Last item
+            }
+
+            return null;
+        }
+
         object Surface.IExprVisitor<object>.Visit(Surface.Unit unit)
         {
             builder.Append("()");

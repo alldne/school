@@ -34,6 +34,14 @@ namespace School.Evaluator
             return Evaluate(coreExpr);
         }
 
+        Value Core.IExprVisitor<Value>.Visit(Core.ExprList exprs)
+        {
+            Value result = UnitValue.Singleton;
+            foreach (var expr in exprs.Exprs)
+                result = expr.Accept(this);
+            return result;
+        }
+
         Value Core.IExprVisitor<Value>.Visit(Core.Unit unit)
         {
             return UnitValue.Singleton;
