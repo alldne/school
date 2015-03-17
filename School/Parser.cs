@@ -10,7 +10,12 @@ namespace School
     public abstract class Parser
     {
         private Lexer input;        // from where do we get tokens?
-        protected Token lookahead;    // the current lookahead token
+        private Token lookAhead;
+
+        protected Token LookAhead
+        {
+            get { return lookAhead; }
+        }
 
         public Parser(Lexer input)
         {
@@ -20,16 +25,16 @@ namespace School
 
         public void Match(int x)
         {
-            if (lookahead.Type == x)
+            if (LookAhead.Type == x)
                 Consume();
             else
                 throw new ParserException("expecting " + input.GetTokenName(x) + 
-                    "; found " + lookahead);
+                    "; found " + LookAhead);
         }
 
         public void Consume()
         {
-            lookahead = input.NextToken();
+            lookAhead = input.NextToken();
         }
     }
 }

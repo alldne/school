@@ -13,8 +13,8 @@ namespace School
         public Surface.Expr Parse()
         {
             Surface.Expr expr = ParseExprList();
-            if (lookahead.Type != SchoolLexer.EOF_TYPE)
-                throw new ParserException("expecting eof; found " + lookahead);
+            if (LookAhead.Type != SchoolLexer.EOF_TYPE)
+                throw new ParserException("expecting eof; found " + LookAhead);
             return expr;
         }
 
@@ -22,7 +22,7 @@ namespace School
         {
             List<Surface.Expr> elements = new List<Surface.Expr>();
             elements.Add(ParseExpr());
-            while (lookahead.Type == SchoolLexer.SEMICOLON)
+            while (LookAhead.Type == SchoolLexer.SEMICOLON)
             {
                 Consume();
                 elements.Add(ParseExpr());
@@ -34,9 +34,9 @@ namespace School
         {
             Surface.Expr left = ParseTerm();
 
-            while (lookahead.Type == SchoolLexer.ADD || lookahead.Type == SchoolLexer.SUB)
+            while (LookAhead.Type == SchoolLexer.ADD || LookAhead.Type == SchoolLexer.SUB)
             {
-                int type = lookahead.Type;
+                int type = LookAhead.Type;
                 Consume();
 
                 Surface.Expr right = ParseTerm();
@@ -55,9 +55,9 @@ namespace School
         {
             Surface.Expr left = ParseApp();
 
-            while (lookahead.Type == SchoolLexer.MUL || lookahead.Type == SchoolLexer.DIV)
+            while (LookAhead.Type == SchoolLexer.MUL || LookAhead.Type == SchoolLexer.DIV)
             {
-                int type = lookahead.Type;
+                int type = LookAhead.Type;
                 Consume();
 
                 Surface.Expr right = ParseApp();
@@ -74,11 +74,11 @@ namespace School
 
         private bool IsApp()
         {
-            int type = lookahead.Type;
+            int type = LookAhead.Type;
             switch (type)
             {
                 case SchoolLexer.KEYWORD:
-                    if (lookahead.Text == "fun" || lookahead.Text == "true" || lookahead.Text == "false" || lookahead.Text == "if")
+                    if (LookAhead.Text == "fun" || LookAhead.Text == "true" || LookAhead.Text == "false" || LookAhead.Text == "if")
                         return true;
                     else
                         return false;
@@ -110,7 +110,7 @@ namespace School
         {
             Surface.Expr expr;
 
-            switch (lookahead.Type)
+            switch (LookAhead.Type)
             {
                 case SchoolLexer.LBRACKET:
                     expr = ParseList();
@@ -139,7 +139,7 @@ namespace School
                         expr = ParseFunAbs();
                     break;
                 default:
-                    throw new ParserException("expecting number; found " + lookahead);
+                    throw new ParserException("expecting number; found " + LookAhead);
             }
 
             return expr;
@@ -147,7 +147,7 @@ namespace School
 
         private Surface.Expr ParseNumber()
         {
-            string numberText = lookahead.Text;
+            string numberText = LookAhead.Text;
             Surface.Expr expr = new Surface.Number(Int32.Parse(numberText));
             Consume();
             return expr;
@@ -155,7 +155,7 @@ namespace School
 
         private Surface.Expr ParseIdExpr()
         {
-            string idText = lookahead.Text;
+            string idText = LookAhead.Text;
             Surface.Expr expr = new Surface.IdExpr(Id.id(idText));
             Consume();
             return expr;
@@ -165,10 +165,10 @@ namespace School
         {
             Match(SchoolLexer.LBRACKET);
             List<Surface.Expr> elements = new List<Surface.Expr>();
-            if (lookahead.Type != SchoolLexer.RBRACKET)
+            if (LookAhead.Type != SchoolLexer.RBRACKET)
             {
                 elements.Add(ParseExprList());
-                while (lookahead.Type == SchoolLexer.COMMNA)
+                while (LookAhead.Type == SchoolLexer.COMMNA)
                 {
                     Consume();
                     elements.Add(ParseExprList());
@@ -181,7 +181,7 @@ namespace School
 
         private bool IsIf()
         {
-            return lookahead.Text == "if";
+            return LookAhead.Text == "if";
         }
 
         private Surface.Expr ParseIf()
@@ -204,8 +204,8 @@ namespace School
 
             IReadOnlyList<Id> argIds = ParseArgIds();
 
-            if (lookahead.Type != SchoolLexer.ARROW)
-                throw new ParserException("expecting arrow; found " + lookahead);
+            if (LookAhead.Type != SchoolLexer.ARROW)
+                throw new ParserException("expecting arrow; found " + LookAhead);
             Consume();
             Surface.Expr bodyExpr = ParseExprList();
             expr = new Surface.FunAbs(argIds, bodyExpr);
@@ -217,42 +217,42 @@ namespace School
 
         private bool IsBoolean()
         {
-            return lookahead.Text == "true" || lookahead.Text == "false";
+            return LookAhead.Text == "true" || LookAhead.Text == "false";
         }
 
         private Surface.Expr ParseBoolean()
         {
-            if (lookahead.Text != "true" && lookahead.Text != "false")
-                throw new ParserException("expecting boolean; found " + lookahead);
+            if (LookAhead.Text != "true" && LookAhead.Text != "false")
+                throw new ParserException("expecting boolean; found " + LookAhead);
 
-            bool b = Boolean.Parse(lookahead.Text);
+            bool b = Boolean.Parse(LookAhead.Text);
             Consume();
             return new Surface.Boolean(b);
         }
 
         private IReadOnlyList<Id> ParseArgIds()
         {
-            if (lookahead.Type != SchoolLexer.ID)
-                throw new ParserException("expecting id; found " + lookahead);
+            if (LookAhead.Type != SchoolLexer.ID)
+                throw new ParserException("expecting id; found " + LookAhead);
 
             var argIds = new List<Id>();
             do
             {
-                Id argId = Id.id(lookahead.Text);
+                Id argId = Id.id(LookAhead.Text);
                 argIds.Add(argId);
                 Consume();
-            } while (lookahead.Type == SchoolLexer.ID);
+            } while (LookAhead.Type == SchoolLexer.ID);
 
             return argIds;
         }
 
         private void MatchKeyword(string keyword)
         {
-            if (lookahead.Type == SchoolLexer.KEYWORD && lookahead.Text == keyword)
+            if (LookAhead.Type == SchoolLexer.KEYWORD && LookAhead.Text == keyword)
                 Consume();
             else
                 throw new ParserException("expecting keyword " + keyword + 
-                    "; found " + lookahead);
+                    "; found " + LookAhead);
         }
     }
 }
