@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 
 namespace School
 {
@@ -9,6 +10,9 @@ namespace School
     public class SchoolParser : Parser
     {
         public SchoolParser(Lexer input) : base(input) { }
+        public SchoolParser(StreamReader reader) : base(new SchoolLexer(reader))
+        {
+        }
 
         public Surface.Expr Parse()
         {

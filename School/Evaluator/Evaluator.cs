@@ -19,8 +19,7 @@ namespace School.Evaluator
 
         public Value Evaluate(string code)
         {
-            var lexer = new SchoolLexer(code.ToStreamReader());
-            var parser = new SchoolParser(lexer);
+            var parser = new SchoolParser(code.ToStreamReader());
             Surface.Expr expr = parser.Parse();
 
             var desugarer = new Desugarer();

@@ -13,8 +13,7 @@ namespace SchoolLint
 
         public string PrettyPrint(StreamReader reader)
         {
-            var lexer = new SchoolLexer(reader);
-            var parser = new SchoolParser(lexer);
+            var parser = new SchoolParser(reader);
             Expr expr = parser.Parse();
 
             var prettyPrinter = new Printer();
