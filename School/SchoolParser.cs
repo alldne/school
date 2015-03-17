@@ -131,9 +131,9 @@ namespace School
                     expr = ParseIdExpr();
                     break;
                 case SchoolLexer.KEYWORD:
-                    if (lookahead.Text == "true" || lookahead.Text == "false")
+                    if (IsBoolean())
                         expr = ParseBoolean();
-                    else if (lookahead.Text == "if")
+                    else if (IsIf())
                         expr = ParseIf();
                     else
                         expr = ParseFunAbs();
@@ -179,6 +179,11 @@ namespace School
             return expr;
         }
 
+        private bool IsIf()
+        {
+            return lookahead.Text == "if";
+        }
+
         private Surface.Expr ParseIf()
         {
             MatchKeyword("if");
@@ -208,6 +213,11 @@ namespace School
             MatchKeyword("end");
 
             return expr;
+        }
+
+        private bool IsBoolean()
+        {
+            return lookahead.Text == "true" || lookahead.Text == "false";
         }
 
         private Surface.Expr ParseBoolean()
