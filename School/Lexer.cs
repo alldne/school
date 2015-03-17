@@ -10,20 +10,17 @@ namespace School
 
     public abstract class Lexer
     {
-        public const char EOF = '\x1a';      // represent end of file char
         public const int EOF_TYPE = 1;       // represent EOF token type
 
         private readonly StreamReader reader;
         protected char LookAhead
         {
-            get
-            {
-                int c = reader.Peek();
-                if (c != -1)
-                    return (char)c;
-                else
-                    return EOF;
-            }
+            get { return (char)reader.Peek(); }
+        }
+
+        protected bool IsEOF()
+        {
+            return reader.Peek() == -1;
         }
 
         public Lexer(StreamReader reader)

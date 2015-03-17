@@ -45,7 +45,7 @@ namespace School
 
         public override Token NextToken()
         {
-            while (LookAhead != EOF)
+            while (!IsEOF())
             {
                 switch (LookAhead)
                 {
