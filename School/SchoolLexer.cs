@@ -26,7 +26,7 @@ namespace School
         public const int EQUAL = 17;
         public static readonly string[] tokenNames =
             { "n/a", "<EOF>", "ADD", "SUB", "MUL", "DIV", "LPAREN", "RPAREN",
-                "NUM", "ID", "KEYWORDS", "ARROW", "UNIT", "LBRACKET", "RBRACKET", "COMMA", "SEMICOLON" };
+                "NUM", "ID", "KEYWORDS", "ARROW", "UNIT", "LBRACKET", "RBRACKET", "COMMA", "SEMICOLON", "EQUAL" };
 
         private static readonly IImmutableSet<string> keywords;
 
