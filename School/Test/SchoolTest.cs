@@ -93,6 +93,30 @@ namespace School.Test
             Assert.NotNull(value2);
             Assert.AreEqual(6, value2.Value);
         }
+        public void TestGt()
+        {
+            BooleanValue value1 = Evaluate("2 > 1") as BooleanValue;
+            Assert.AreEqual(true, value1.Value);
+
+            BooleanValue value2 = Evaluate("1 > 2") as BooleanValue;
+            Assert.AreEqual(false, value2.Value);
+
+            BooleanValue value3 = Evaluate("1 + 1 * 2 > 1") as BooleanValue;
+            Assert.AreEqual(true, value3.Value);
+        }
+
+        [Test]
+        public void TestLt()
+        {
+            BooleanValue value1 = Evaluate("1 < 2") as BooleanValue;
+            Assert.AreEqual(true, value1.Value);
+
+            BooleanValue value2 = Evaluate("2 < 1") as BooleanValue;
+            Assert.AreEqual(false, value2.Value);
+
+            BooleanValue value3 = Evaluate("1 + 1 * 2 < 1") as BooleanValue;
+            Assert.AreEqual(false, value3.Value);
+        }
 
         [Test]
         [ExpectedException(typeof(DivideByZeroException))]

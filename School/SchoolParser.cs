@@ -54,6 +54,26 @@ namespace School
             return elements.Count == 1 ? elements[0] : new Surface.ExprList(elements);
         }
 
+        private Surface.Expr ParseComparisonExpr()
+        {
+            Surface.Expr left = ParseArithmeticExpr();
+            if (LookAhead.Type == SchoolLexer.GT || LookAhead.Type == SchoolLexer.LT)
+            {
+                int type = LookAhead.Type;
+                Consume();
+
+                Surface.Expr right = ParseComparisonExpr();
+
+                if (type == SchoolLexer.GT)
+                    left = new Surface.Gt(left, right);
+                else if (type == SchoolLexer.LT)
+                    left = new Surface.Lt(left, right);
+                else
+                    throw new ParserException("unreachable code");
+            }
+
+            return left;
+        }
         private Surface.Expr ParseExpr()
         {
             Surface.Expr left = ParseComparisonExpr();
@@ -70,7 +90,7 @@ namespace School
             return left;
         }
 
-        private Surface.Expr ParseComparisonExpr()
+        private Surface.Expr ParseArithmeticExpr()
         {
             Surface.Expr left = ParseTerm();
 
@@ -84,6 +104,10 @@ namespace School
                     left = new Surface.Add(left, right);
                 else if (type == SchoolLexer.SUB)
                     left = new Surface.Sub(left, right);
+                else if (type == SchoolLexer.GT)
+                    left = new Surface.Gt(left, right);
+                else if (type == SchoolLexer.LT)
+                    left = new Surface.Lt(left, right);
                 else
                     throw new ParserException("unreachable code");
             }

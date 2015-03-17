@@ -25,9 +25,11 @@ namespace School
         public const int SEMICOLON = 16;
         public const int EQUAL = 17;
         public const int RIGHT_COMPOSITION = 18;
+        public const int GT = 19;
+        public const int LT = 20;
         public static readonly string[] tokenNames =
             { "n/a", "<EOF>", "ADD", "SUB", "MUL", "DIV", "LPAREN", "RPAREN",
-                "NUM", "ID", "KEYWORDS", "ARROW", "UNIT", "LBRACKET", "RBRACKET", "COMMA", "SEMICOLON", "EQUAL", "RIGHT_COMPOSITION" };
+                "NUM", "ID", "KEYWORDS", "ARROW", "UNIT", "LBRACKET", "RBRACKET", "COMMA", "SEMICOLON", "EQUAL", "RIGHT_COMPOSITION", "GT", "LT" };
 
         private static readonly IImmutableSet<string> keywords;
 
@@ -107,7 +109,10 @@ namespace School
                             return new Token(RIGHT_COMPOSITION, ">>");
                         }
                         else
-                            throw new LexerException("invalid character: " + LookAhead);
+                            return new Token(GT, ">");
+                    case '<':
+                        Consume();
+                        return new Token(LT, "<");
                     default:
                         if (IsLetter())
                             return IDENTIFIER_OR_KEYWORDS();

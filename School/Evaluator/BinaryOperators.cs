@@ -12,7 +12,9 @@ namespace School.Evaluator
             { "mul", Mul },
             { "div", Div },
             { "equal", Equal },
-            { "compose", Compose }
+            { "compose", Compose },
+            { "gt", Gt },
+            { "lt", Lt }
         };
 
         public static Func<Value, Value, Value> Lookup(string name)
@@ -73,6 +75,26 @@ namespace School.Evaluator
                 throw new RuntimeTypeError("fun expected");
 
             return new FunValue1(x => g.Apply(f.Apply(x)));
+        }
+
+        private static Value Gt(Value aValue, Value bValue)
+        {
+            IntValue a = aValue as IntValue;
+            IntValue b = bValue as IntValue;
+            if (a == null || b == null)
+                throw new RuntimeTypeError("int expected");
+
+            return a.Value > b.Value ? BooleanValue.True : BooleanValue.False;
+        }
+
+        private static Value Lt(Value aValue, Value bValue)
+        {
+            IntValue a = aValue as IntValue;
+            IntValue b = bValue as IntValue;
+            if (a == null || b == null)
+                throw new RuntimeTypeError("int expected");
+
+            return a.Value < b.Value ? BooleanValue.True : BooleanValue.False;
         }
     }
 }

@@ -137,6 +137,18 @@ namespace School
             return null;
         }
 
+        object Surface.IExprVisitor<object>.Visit(Surface.Gt gt)
+        {
+            PrintBinaryOperator(gt, ">");
+            return null;
+        }
+
+        object Surface.IExprVisitor<object>.Visit(Surface.Lt lt)
+        {
+            PrintBinaryOperator(lt, "<");
+            return null;
+        }
+
         object Surface.IExprVisitor<object>.Visit(Surface.IdExpr idExpr)
         {
             builder.Append(idExpr.Id.ToString());
