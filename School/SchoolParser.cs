@@ -4,9 +4,6 @@ using System.IO;
 
 namespace School
 {
-    // expr    = term  { ("+" | "-") expr }
-    // term    = factor  { ("*"|"/") term }
-    // factor  = number | "("  expr  ")"
     public class SchoolParser : Parser
     {
         public SchoolParser(Lexer input) : base(input) { }
