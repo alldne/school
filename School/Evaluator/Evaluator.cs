@@ -98,8 +98,12 @@ namespace School.Evaluator
             {
                     Env oldEnv = this.env;
                     this.env = closure.Add(funAbs.ArgId, a);
-                    Value result = funAbs.BodyExpr.Accept(this);
-                    this.env = oldEnv;
+                    Value result;
+                    try {
+                        result = funAbs.BodyExpr.Accept(this);
+                    } finally {
+                        this.env = oldEnv;
+                    }
                     return result;
             };
             return new FunValue1(fun);
