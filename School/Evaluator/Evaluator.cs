@@ -4,13 +4,6 @@ using System.Linq;
 
 namespace School.Evaluator
 {
-    public class RuntimeTypeError : Exception
-    {
-        public RuntimeTypeError(string message) : base(message)
-        {
-        }
-    }
-
     public class Evaluator : Core.IExprVisitor<Value>
     {
         private Env env = Env.Empty;
