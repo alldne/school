@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Text;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 
 namespace School
 {
@@ -24,7 +25,17 @@ namespace School
         public static readonly string[] tokenNames =
             { "n/a", "<EOF>", "ADD", "SUB", "MUL", "DIV", "LPAREN", "RPAREN",
                 "NUM", "ID", "KEYWORDS", "ARROW", "UNIT", "LBRACKET", "RBRACKET", "COMMA", "SEMICOLON" };
-        private static readonly ISet<string> keywords = new HashSet<string>() { "fun", "end", "true", "false", "if", "then", "else" };
+
+        private static readonly IImmutableSet<string> keywords;
+
+        static SchoolLexer()
+        {
+            string[] ks = { "fun", "end", "true", "false", "if", "then", "else" };
+            var builder = ImmutableHashSet.CreateBuilder<string>();
+            foreach (var k in ks)
+                builder.Add(k);
+            keywords = builder.ToImmutableHashSet();
+        }
 
         public override String GetTokenName(int x) { return tokenNames[x]; }
 
