@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 
 namespace School
 {
@@ -12,30 +13,34 @@ namespace School
         public const char EOF = '\x1a';      // represent end of file char
         public const int EOF_TYPE = 1;       // represent EOF token type
 
-        private readonly char[] input;   // input string
-        private int p = 0;      // index into input of current character
-        protected char c;       // current character
-
-        public Lexer(string input)
+        private readonly StreamReader reader;
+        protected char LookAhead
         {
-            this.input = input.ToCharArray();
-            c = this.input[p]; // prime lookahead
+            get
+            {
+                int c = reader.Peek();
+                if (c != -1)
+                    return (char)c;
+                else
+                    return EOF;
+            }
+        }
+
+        public Lexer(StreamReader reader)
+        {
+            this.reader = reader;
         }
 
         public void Consume() {
-            p++;
-            if (p >= input.Length)
-                c = EOF;
-            else
-                c = input[p];
+            reader.Read();
         }
 
         public void Match(char x)
         {
-            if (c == x)
+            if (LookAhead == x)
                 Consume();
             else
-                throw new LexerException("expecting " + x + "; found " + c);
+                throw new LexerException("expecting " + x + "; found " + LookAhead);
         }
 
         public abstract Token NextToken();

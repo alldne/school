@@ -16,9 +16,8 @@ namespace SchoolLint
             string path = args[0];
             using (StreamReader sr = File.OpenText(path))
             {
-                string code = sr.ReadToEnd();
                 SchoolLint lint = new SchoolLint();
-                string prettified = lint.PrettyPrint(code);
+                string prettified = lint.PrettyPrint(sr);
                 Console.WriteLine(prettified);
             }
         }

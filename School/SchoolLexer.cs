@@ -2,6 +2,7 @@
 using System.Text;
 using System.Collections.Generic;
 using System.Collections.Immutable;
+using System.IO;
 
 namespace School
 {
@@ -39,13 +40,13 @@ namespace School
 
         public override String GetTokenName(int x) { return tokenNames[x]; }
 
-        public SchoolLexer(string input) : base(input) { }
+        public SchoolLexer(StreamReader reader) : base(reader) { }
 
         public override Token NextToken()
         {
-            while (c != EOF)
+            while (LookAhead != EOF)
             {
-                switch (c)
+                switch (LookAhead)
                 {
                     case ' ':
                     case '\t':
@@ -58,7 +59,7 @@ namespace School
                         return new Token(ADD, "+");
                     case '-':
                         Consume();
-                        if (c == '>')
+                        if (LookAhead == '>')
                         {
                             Consume();
                             return new Token(ARROW, "->");
@@ -72,7 +73,7 @@ namespace School
                         return new Token(DIV, "/");
                     case '(':
                         Consume();
-                        if (c == ')')
+                        if (LookAhead == ')')
                         {
                             Consume();
                             return new Token(UNIT, "()");
@@ -98,7 +99,7 @@ namespace School
                             return IDENTIFIER_OR_KEYWORDS();
                         if (IsDigit())
                             return NUMBER();
-                        throw new LexerException("invalid character: " + c);
+                        throw new LexerException("invalid character: " + LookAhead);
                 }
             }
 
@@ -107,12 +108,12 @@ namespace School
             
         private bool IsDigit()
         {
-            return c >= '0' && c <= '9';
+            return LookAhead >= '0' && LookAhead <= '9';
         }
 
         private bool IsLetter()
         {
-            return Char.IsLetter(c);
+            return Char.IsLetter(LookAhead);
         }
 
         /** DIGIT   : '0'..'9'; // define what a digit is */
@@ -121,7 +122,7 @@ namespace School
             if (IsDigit())
                 Consume();
             else
-                throw new LexerException("expecting DIGIT; found " + c);
+                throw new LexerException("expecting DIGIT; found " + LookAhead);
         }
 
         private void LETTER()
@@ -129,7 +130,7 @@ namespace School
             if (IsLetter())
                 Consume();
             else
-                throw new LexerException("expecting LETTER; found " + c);
+                throw new LexerException("expecting LETTER; found " + LookAhead);
         }
 
         /** ID : LETTER+ ; // ID is sequence of >= 1 letter */
@@ -138,7 +139,7 @@ namespace School
             var buf = new StringBuilder();
             do
             {
-                buf.Append(c);
+                buf.Append(LookAhead);
                 LETTER();
             } while (IsLetter());
 
@@ -155,7 +156,7 @@ namespace School
             var buf = new StringBuilder();
             do
             {
-                buf.Append(c);
+                buf.Append(LookAhead);
                 DIGIT();
             } while (IsDigit());
             return new Token(NUM, buf.ToString());
@@ -164,7 +165,7 @@ namespace School
         /** WS : (' '|'\t'|'\n'|'\r')* ; // ignore any whitespace */
         private void WS()
         {
-            while (c == ' ' || c == '\t' || c == '\n' || c == '\r')
+            while (LookAhead == ' ' || LookAhead == '\t' || LookAhead == '\n' || LookAhead == '\r')
                 Consume();
         }
     }

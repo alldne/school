@@ -1,6 +1,7 @@
 ﻿using School;
 using School.Surface;
 using System;
+using System.IO;
 
 namespace SchoolLint
 {
@@ -10,9 +11,9 @@ namespace SchoolLint
         {
         }
 
-        public string PrettyPrint(string code)
+        public string PrettyPrint(StreamReader reader)
         {
-            var lexer = new SchoolLexer(code);
+            var lexer = new SchoolLexer(reader);
             var parser = new SchoolParser(lexer);
             Expr expr = parser.Parse();
 

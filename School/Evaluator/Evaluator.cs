@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.IO;
 
 namespace School.Evaluator
 {
@@ -17,7 +18,7 @@ namespace School.Evaluator
 
         public Value Evaluate(string code)
         {
-            var lexer = new SchoolLexer(code);
+            var lexer = new SchoolLexer(code.ToStreamReader());
             var parser = new SchoolParser(lexer);
             Surface.Expr expr = parser.Parse();
 

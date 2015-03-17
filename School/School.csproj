@@ -60,6 +60,7 @@
     <Compile Include="Evaluator\BinaryOperators.cs" />
     <Compile Include="Evaluator\Prelude.cs" />
     <Compile Include="Evaluator\RuntimeTypeError.cs" />
+    <Compile Include="StringExtension.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
