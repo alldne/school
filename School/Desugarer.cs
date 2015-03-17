@@ -13,6 +13,19 @@ namespace School
             return expr.Accept(this);
         }
 
+        Core.Expr Surface.IExprVisitor<Core.Expr>.Visit(Surface.NamedFunAbsList namedFunAbsList)
+        {
+            List<Core.Expr> coreExprs = namedFunAbsList.Elements.Select(e => e.Accept(this)).ToList();
+            return new Core.NamedFunAbsList(coreExprs);
+        }
+
+        Core.Expr Surface.IExprVisitor<Core.Expr>.Visit(Surface.Program program)
+        {
+            Core.NamedFunAbsList namedFunAbsList = program.NamedFunAbsList.Accept(this) as Core.NamedFunAbsList;
+            Core.Expr expr = program.Expr.Accept(this);
+            return new Core.Program(namedFunAbsList, expr);
+        }
+
         Core.Expr Surface.IExprVisitor<Core.Expr>.Visit(Surface.ExprList exprs)
         {
             List<Core.Expr> coreExprs = exprs.Exprs.Select(e => e.Accept(this)).ToList();
@@ -77,6 +90,14 @@ namespace School
         {
             Core.Expr bodyExpr = funAbs.BodyExpr.Accept(this);
             return funAbs.ArgIds.Reverse().Aggregate(bodyExpr, (body, id) => new Core.FunAbs(id, body));
+        }
+
+        Core.Expr Surface.IExprVisitor<Core.Expr>.Visit(Surface.NamedFunAbs namedFunAbs)
+        {
+            Core.Expr bodyExpr = namedFunAbs.BodyExpr.Accept(this);
+            Core.FunAbs funAbs = namedFunAbs.ArgIds.Reverse().Aggregate(
+                bodyExpr, (body, id) => new Core.FunAbs(id, body)) as Core.FunAbs;
+            return new Core.NamedFunAbs(namedFunAbs.NameId, funAbs);
         }
 
         Core.Expr Surface.IExprVisitor<Core.Expr>.Visit(Surface.FunApp funApp)

@@ -23,6 +23,7 @@ namespace School
         public const int RBRACKET = 14;
         public const int COMMNA = 15;
         public const int SEMICOLON = 16;
+        public const int EQUAL = 17;
         public static readonly string[] tokenNames =
             { "n/a", "<EOF>", "ADD", "SUB", "MUL", "DIV", "LPAREN", "RPAREN",
                 "NUM", "ID", "KEYWORDS", "ARROW", "UNIT", "LBRACKET", "RBRACKET", "COMMA", "SEMICOLON" };
@@ -31,7 +32,7 @@ namespace School
 
         static SchoolLexer()
         {
-            string[] ks = { "fun", "end", "true", "false", "if", "then", "else" };
+            string[] ks = { "let", "fun", "end", "true", "false", "if", "then", "else" };
             var builder = ImmutableHashSet.CreateBuilder<string>();
             foreach (var k in ks)
                 builder.Add(k);
@@ -94,6 +95,9 @@ namespace School
                     case ';':
                         Consume();
                         return new Token(SEMICOLON, ";");
+                    case '=':
+                        Consume();
+                        return new Token(EQUAL, "=");
                     default:
                         if (IsLetter())
                             return IDENTIFIER_OR_KEYWORDS();

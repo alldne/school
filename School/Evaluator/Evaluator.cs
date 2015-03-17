@@ -28,6 +28,19 @@ namespace School.Evaluator
             return Evaluate(coreExpr);
         }
 
+        Value Core.IExprVisitor<Value>.Visit(Core.Program program)
+        {
+            program.NamedFunAbsList.Accept(this);
+            return program.Expr.Accept(this);
+        }
+
+        Value Core.IExprVisitor<Value>.Visit(Core.NamedFunAbsList namedFunAbsList)
+        {
+            foreach (var e in namedFunAbsList.Elements)
+                e.Accept(this);
+            return UnitValue.Singleton;
+        }
+
         Value Core.IExprVisitor<Value>.Visit(Core.ExprList exprs)
         {
             Value result = UnitValue.Singleton;
@@ -69,6 +82,13 @@ namespace School.Evaluator
         Value Core.IExprVisitor<Value>.Visit(Core.IdExpr idExpr)
         {
             return env.Lookup(idExpr.Id);
+        }
+
+        Value Core.IExprVisitor<Value>.Visit(Core.NamedFunAbs namedFunAbs)
+        {
+            FunValue1 funValue = namedFunAbs.FunAbs.Accept(this) as FunValue1;
+            this.env = env.Add(namedFunAbs.NameId, funValue);
+            return funValue;
         }
 
         Value Core.IExprVisitor<Value>.Visit(Core.FunAbs funAbs)

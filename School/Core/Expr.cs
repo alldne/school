@@ -11,6 +11,9 @@ namespace School.Core
         R Visit(List list);
         R Visit(BinaryOperator app);
         R Visit(IdExpr idExpr);
+        R Visit(Program program);
+        R Visit(NamedFunAbsList funNamedAbsList);
+        R Visit(NamedFunAbs funNamedAbs);
         R Visit(FunAbs funAbs);
         R Visit(FunApp funApp);
         R Visit(IfExpr ifExpr);
@@ -20,6 +23,54 @@ namespace School.Core
     public abstract class Expr
     {
         public abstract R Accept<R>(IExprVisitor<R> visitor);
+    }
+
+    public class Program : Expr
+    {
+        private readonly NamedFunAbsList namedFunAbsList;
+
+        private readonly Expr expr;
+
+        public NamedFunAbsList NamedFunAbsList
+        {
+            get { return namedFunAbsList; }
+        }
+
+        public Expr Expr
+        {
+            get { return expr; }
+        }
+
+        public Program(NamedFunAbsList namedFunAbsList, Expr expr)
+        {
+            this.namedFunAbsList = namedFunAbsList;
+            this.expr = expr;
+        }
+
+        public override R Accept<R>(IExprVisitor<R> visitor)
+        {
+            return visitor.Visit(this);
+        }
+    }
+
+    public class NamedFunAbsList : Expr
+    {
+        private readonly IReadOnlyList<Expr> elements;
+
+        public IReadOnlyList<Expr> Elements
+        {
+            get { return elements; }
+        }
+
+        public NamedFunAbsList(IReadOnlyList<Expr> elements)
+        {
+            this.elements = elements;
+        }
+
+        public override R Accept<R>(IExprVisitor<R> visitor)
+        {
+            return visitor.Visit(this);
+        }
     }
 
     public class ExprList : Expr
@@ -54,6 +105,33 @@ namespace School.Core
         public IdExpr(Id id)
         {
             this.id = id;
+        }
+
+        public override R Accept<R>(IExprVisitor<R> visitor)
+        {
+            return visitor.Visit(this);
+        }
+    }
+
+    public class NamedFunAbs : Expr
+    {
+        private readonly Id nameId;
+        private readonly FunAbs funAbs;
+
+        public Id NameId
+        {
+            get { return nameId; }
+        }
+
+        public FunAbs FunAbs
+        {
+            get { return funAbs; }
+        }
+
+        public NamedFunAbs(Id nameId, FunAbs funAbs)
+        {
+            this.nameId = nameId;
+            this.funAbs = funAbs;
         }
 
         public override R Accept<R>(IExprVisitor<R> visitor)

@@ -12,10 +12,36 @@ namespace School
 
         public Surface.Expr Parse()
         {
-            Surface.Expr expr = ParseExprList();
+            Surface.Expr expr = ParseProgram();
             if (LookAhead.Type != SchoolLexer.EOF_TYPE)
                 throw new ParserException("expecting eof; found " + LookAhead);
             return expr;
+        }
+
+        private Surface.Expr ParseProgram()
+        {
+            Surface.NamedFunAbsList namedFunAbsList = ParseNamedFunAbsList();
+            Surface.Expr expr;
+            if (LookAhead.Type != SchoolLexer.EOF_TYPE)
+                expr = ParseExprList();
+            else
+                expr = Surface.Unit.Singleton;
+            return new Surface.Program(namedFunAbsList, expr);
+        }
+
+        private Surface.NamedFunAbsList ParseNamedFunAbsList()
+        {
+            List<Surface.Expr> namedFunAbsList = new List<Surface.Expr>();
+            if (IsNamedFunAbs())
+            {
+                namedFunAbsList.Add(ParseNamedFunAbs());
+                while (IsNamedFunAbs())
+                {
+                    Consume();
+                    namedFunAbsList.Add(ParseNamedFunAbs());
+                }
+            }
+            return new Surface.NamedFunAbsList(namedFunAbsList);
         }
 
         private Surface.Expr ParseExprList()
@@ -78,7 +104,7 @@ namespace School
             switch (type)
             {
                 case SchoolLexer.KEYWORD:
-                    if (LookAhead.Text == "fun" || LookAhead.Text == "true" || LookAhead.Text == "false" || LookAhead.Text == "if")
+                    if (LookAhead.Text == "fun" || LookAhead.Text == "let" || LookAhead.Text == "true" || LookAhead.Text == "false" || LookAhead.Text == "if")
                         return true;
                     else
                         return false;
@@ -209,6 +235,35 @@ namespace School
             Consume();
             Surface.Expr bodyExpr = ParseExprList();
             expr = new Surface.FunAbs(argIds, bodyExpr);
+
+            MatchKeyword("end");
+
+            return expr;
+        }
+
+        private bool IsNamedFunAbs()
+        {
+            return LookAhead.Text == "let";
+        }
+
+        private Surface.Expr ParseNamedFunAbs()
+        {
+            Surface.Expr expr;
+
+            MatchKeyword("let");
+
+            if (LookAhead.Type != SchoolLexer.ID)
+                throw new ParserException("expecting id; found " + LookAhead);
+            Id nameId = Id.id(LookAhead.Text);
+            Consume();
+
+            IReadOnlyList<Id> argIds = ParseArgIds();
+
+            if (LookAhead.Type != SchoolLexer.EQUAL)
+                throw new ParserException("expecting equal; found " + LookAhead);
+            Consume();
+            Surface.Expr bodyExpr = ParseExprList();
+            expr = new Surface.NamedFunAbs(nameId, argIds, bodyExpr);
 
             MatchKeyword("end");
 

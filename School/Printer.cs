@@ -16,6 +16,28 @@ namespace School
             return builder.ToString();
         }
 
+        object Surface.IExprVisitor<object>.Visit(Surface.Program program)
+        {
+            foreach (var e in program.NamedFunAbsList.Elements)
+            {
+                e.Accept(this);
+                builder.AppendLine("");
+            }
+            program.Expr.Accept(this);
+            return null;
+        }
+
+        object Surface.IExprVisitor<object>.Visit(Surface.NamedFunAbsList namedFunAbsList)
+        {
+            foreach (var e in namedFunAbsList.Elements)
+            {
+                e.Accept(this);
+                builder.AppendLine("");
+            }
+
+            return null;
+        }
+
         object Surface.IExprVisitor<object>.Visit(Surface.ExprList exprs)
         {
             var e = exprs.Exprs.GetEnumerator();
@@ -106,6 +128,21 @@ namespace School
         object Surface.IExprVisitor<object>.Visit(Surface.IdExpr idExpr)
         {
             builder.Append(idExpr.Id.ToString());
+            return null;
+        }
+
+        object Surface.IExprVisitor<object>.Visit(Surface.NamedFunAbs namedFunAbs)
+        {
+            builder.Append("let ");
+            builder.Append(namedFunAbs.NameId);
+            foreach (var argId in namedFunAbs.ArgIds)
+            {
+                builder.Append(argId);
+                builder.Append(" ");
+            }
+            builder.Append("-> ");
+            namedFunAbs.BodyExpr.Accept(this);
+            builder.Append(" end");
             return null;
         }
 
