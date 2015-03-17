@@ -31,7 +31,8 @@ namespace School
             this.reader = reader;
         }
 
-        public void Consume() {
+        public void Consume()
+        {
             reader.Read();
         }
 
