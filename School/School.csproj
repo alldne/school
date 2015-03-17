@@ -75,5 +75,6 @@
     <None Include="packages.config" />
     <None Include="Examples\helloworld.sc" />
     <None Include="Examples\unitlist.sc" />
+    <None Include="Examples\namedfun.sc" />
   </ItemGroup>
 </Project>
