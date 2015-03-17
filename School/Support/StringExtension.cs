@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 
-namespace School
+namespace School.Support
 {
     public static class StringExtension
     {
