@@ -62,6 +62,7 @@ namespace School
                 {
                     item.Accept(this);
                     builder.Append(",");
+                    item = e.Current;
                 }
                 item.Accept(this); // Last item
             }
