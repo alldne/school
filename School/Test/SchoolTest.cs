@@ -88,6 +88,16 @@ namespace School.Test
         }
 
         [Test]
+        public void TestProgramWithNoExpr()
+        {
+            Value value1 = Evaluate("") as Value;
+            Assert.AreEqual(UnitValue.Singleton, value1);
+
+            Value value2 = Evaluate("let add x y = x + y end") as Value;
+            Assert.AreEqual(UnitValue.Singleton, value2);
+        }
+
+        [Test]
         public void TestNamedFunAbs()
         {
             IntValue value = Evaluate(
