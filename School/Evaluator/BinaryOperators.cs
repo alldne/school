@@ -11,7 +11,8 @@ namespace School.Evaluator
             { "sub", Sub },
             { "mul", Mul },
             { "div", Div },
-            { "equal", Equal }
+            { "equal", Equal },
+            { "compose", Compose }
         };
 
         public static Func<Value, Value, Value> Lookup(string name)
@@ -63,6 +64,15 @@ namespace School.Evaluator
         {
             return aValue.Equals(bValue) ? BooleanValue.True : BooleanValue.False;
         }
+
+        private static Value Compose(Value aValue, Value bValue)
+        {
+            FunValue f = aValue as FunValue;
+            FunValue g = bValue as FunValue;
+            if (f == null || g == null)
+                throw new RuntimeTypeError("fun expected");
+
+            return new FunValue1(x => g.Apply(f.Apply(x)));
+        }
     }
 }
-

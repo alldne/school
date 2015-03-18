@@ -92,42 +92,48 @@ namespace School
             return null;
         }
 
-        private void PrintBinaryOperator(Surface.BinaryOperator binOp, char opChar)
+        private void PrintBinaryOperator(Surface.BinaryOperator binOp, string op)
         {
             builder.Append("(");
             binOp.Left.Accept(this);
-            builder.AppendFormat(" {0} ", opChar);
+            builder.AppendFormat(" {0} ", op);
             binOp.Right.Accept(this);
             builder.Append(")");
         }
 
         object Surface.IExprVisitor<object>.Visit(Surface.Equal equal)
         {
-            PrintBinaryOperator(equal, '=');
+            PrintBinaryOperator(equal, "=");
             return null;
         }
 
         object Surface.IExprVisitor<object>.Visit(Surface.Add add)
         {
-            PrintBinaryOperator(add, '+');
+            PrintBinaryOperator(add, "+");
             return null;
         }
 
         object Surface.IExprVisitor<object>.Visit(Surface.Sub sub)
         {
-            PrintBinaryOperator(sub, '-');
+            PrintBinaryOperator(sub, "-");
             return null;
         }
 
         object Surface.IExprVisitor<object>.Visit(Surface.Mul mul)
         {
-            PrintBinaryOperator(mul, '*');
+            PrintBinaryOperator(mul, "*");
             return null;
         }
 
         object Surface.IExprVisitor<object>.Visit(Surface.Div div)
         {
-            PrintBinaryOperator(div, '/');
+            PrintBinaryOperator(div, "/");
+            return null;
+        }
+
+        object Surface.IExprVisitor<object>.Visit(Surface.Composition comp)
+        {
+            PrintBinaryOperator(comp, ">>");
             return null;
         }
 

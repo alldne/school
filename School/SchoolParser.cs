@@ -93,14 +93,14 @@ namespace School
  
         private Surface.Expr ParseTerm()
         {
-            Surface.Expr left = ParseApp();
+            Surface.Expr left = ParseComposition();
 
             while (LookAhead.Type == SchoolLexer.MUL || LookAhead.Type == SchoolLexer.DIV)
             {
                 int type = LookAhead.Type;
                 Consume();
 
-                Surface.Expr right = ParseApp();
+                Surface.Expr right = ParseComposition();
                 if (type == SchoolLexer.MUL)
                     left = new Surface.Mul(left, right);
                 else if (type == SchoolLexer.DIV)
@@ -109,6 +109,22 @@ namespace School
                     throw new ParserException("unreachable code");
             }
                 
+            return left;
+        }
+
+        private Surface.Expr ParseComposition()
+        {
+            Surface.Expr left = ParseApp();
+
+            while (LookAhead.Type == SchoolLexer.RIGHT_COMPOSITION)
+            {
+                int type = LookAhead.Type;
+                Consume();
+
+                Surface.Expr right = ParseApp();
+                left = new Surface.Composition(left, right);
+            }
+
             return left;
         }
 

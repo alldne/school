@@ -88,6 +88,13 @@ namespace School
             return new Core.BinaryOperator("div", left, right);
         }
 
+        Core.Expr Surface.IExprVisitor<Core.Expr>.Visit(Surface.Composition comp)
+        {
+            Core.Expr left = comp.Left.Accept(this);
+            Core.Expr right = comp.Right.Accept(this);
+            return new Core.BinaryOperator("compose", left, right);
+        }
+
         Core.Expr Surface.IExprVisitor<Core.Expr>.Visit(Surface.IdExpr idExpr)
         {
             return new Core.IdExpr(idExpr.Id);
