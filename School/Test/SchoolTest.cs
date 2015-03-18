@@ -88,6 +88,25 @@ namespace School.Test
         }
 
         [Test]
+        public void TestNamedFunAbs()
+        {
+            IntValue value = Evaluate(
+                @"let add x y = x + y end
+                  add 1 2") as IntValue;
+            Assert.AreEqual(3, value.Value);
+        }
+
+        [Test]
+        public void TestTwoNamedFunAbs()
+        {
+            IntValue value = Evaluate(
+                @"let add x y = x + y end
+                  let sub x y = x - y end
+                  sub (add 2 3) (add 1 2)") as IntValue;
+            Assert.AreEqual(2, value.Value);
+        }
+
+        [Test]
         public void TestFunApp()
         {
             IntValue value = Evaluate("(fun x -> x end) 1") as IntValue;
