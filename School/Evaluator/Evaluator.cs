@@ -24,15 +24,20 @@ namespace School.Evaluator
             return expr.Accept(this);
         }
 
-        public Value Evaluate(string code)
+        public Value Evaluate(StreamReader reader)
         {
-            var parser = new SchoolParser(code.ToStreamReader());
+            var parser = new SchoolParser(reader);
             Surface.Expr expr = parser.Parse();
 
             var desugarer = new Desugarer();
             Core.Expr coreExpr = desugarer.Desugar(expr);
 
             return Evaluate(coreExpr);
+        }
+
+        public Value Evaluate(string code)
+        {
+            return Evaluate(code.ToStreamReader());
         }
 
         Value Core.IExprVisitor<Value>.Visit(Core.Program program)
