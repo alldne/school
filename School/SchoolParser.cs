@@ -231,9 +231,8 @@ namespace School
 
             IReadOnlyList<Id> argIds = ParseArgIds();
 
-            if (LookAhead.Type != SchoolLexer.ARROW)
-                throw new ParserException("expecting arrow; found " + LookAhead);
-            Consume();
+            Match(SchoolLexer.ARROW);
+
             Surface.Expr bodyExpr = ParseExprList();
             expr = new Surface.FunAbs(argIds, bodyExpr);
 
@@ -260,9 +259,8 @@ namespace School
 
             IReadOnlyList<Id> argIds = ParseArgIds();
 
-            if (LookAhead.Type != SchoolLexer.EQUAL)
-                throw new ParserException("expecting equal; found " + LookAhead);
-            Consume();
+            Match(SchoolLexer.EQUAL);
+
             Surface.Expr bodyExpr = ParseExprList();
             expr = new Surface.NamedFunAbs(nameId, new Surface.FunAbs(argIds, bodyExpr));
 
