@@ -174,6 +174,13 @@ namespace School.Test
         }
 
         [Test]
+        public void TestEmptyList()
+        {
+            ListValue value = Evaluate("[]") as ListValue;
+            Assert.AreEqual(0, value.Elements.Count);
+        }
+
+        [Test]
         public void TestList()
         {
             ListValue value = Evaluate("[1,2,3]") as ListValue;
