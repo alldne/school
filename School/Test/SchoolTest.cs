@@ -215,5 +215,15 @@ namespace School.Test
             Assert.AreEqual(2, (value.Elements[1] as IntValue).Value);
             Assert.AreEqual(3, (value.Elements[2] as IntValue).Value);
         }
+
+        [Test]
+        public void TestHeterogeneousList()
+        {
+            ListValue value = Evaluate("[1,false,()]") as ListValue;
+            Assert.NotNull(value);
+            Assert.AreEqual(1, (value.Elements[0] as IntValue).Value);
+            Assert.AreEqual(false, (value.Elements[1] as BooleanValue).Value);
+            Assert.AreEqual(UnitValue.Singleton, value.Elements[2] as UnitValue);
+        }
     }
 }
