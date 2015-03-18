@@ -160,6 +160,13 @@ namespace School.Test
         }
 
         [Test]
+        public void TestUnitSingleton()
+        {
+            Value value = Evaluate("()");
+            Assert.AreSame(UnitValue.Singleton, value);
+        }
+
+        [Test]
         public void TestSemicolonOperator()
         {
             IntValue value = Evaluate("1;2;3") as IntValue;
