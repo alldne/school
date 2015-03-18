@@ -54,6 +54,9 @@ namespace School.Evaluator
 
         public override bool Equals(object obj)
         {
+            if (obj == null)
+                return false;
+
             IntValue other = obj as IntValue;
             if (other == null)
                 return false;
@@ -91,6 +94,9 @@ namespace School.Evaluator
 
         public override bool Equals(object obj)
         {
+            if (obj == null)
+                return false;
+
             BooleanValue other = obj as BooleanValue;
             if (other == null)
                 return false;
