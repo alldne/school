@@ -265,5 +265,15 @@ namespace School.Test
             Assert.NotNull(value6);
             Assert.AreEqual(false, value6.Value);
         }
+
+        [Test]
+        public void TestRecursiveFun()
+        {
+            IntValue value = Evaluate(
+                @"let fac x = if x = 1 then 1 else x * fac (x - 1) end
+                  fac 5") as IntValue;
+            Assert.NotNull(value);
+            Assert.AreEqual(120, value.Value);
+        }
     }
 }
