@@ -264,7 +264,7 @@ namespace School
                 throw new ParserException("expecting equal; found " + LookAhead);
             Consume();
             Surface.Expr bodyExpr = ParseExprList();
-            expr = new Surface.NamedFunAbs(nameId, argIds, bodyExpr);
+            expr = new Surface.NamedFunAbs(nameId, new Surface.FunAbs(argIds, bodyExpr));
 
             MatchKeyword("end");
 

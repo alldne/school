@@ -135,13 +135,13 @@ namespace School
         {
             builder.Append("let ");
             builder.Append(namedFunAbs.NameId);
-            foreach (var argId in namedFunAbs.ArgIds)
+            foreach (var argId in namedFunAbs.FunAbs.ArgIds)
             {
                 builder.Append(argId);
                 builder.Append(" ");
             }
             builder.Append("-> ");
-            namedFunAbs.BodyExpr.Accept(this);
+            namedFunAbs.FunAbs.BodyExpr.Accept(this);
             builder.Append(" end");
             return null;
         }

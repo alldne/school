@@ -94,9 +94,7 @@ namespace School
 
         Core.Expr Surface.IExprVisitor<Core.Expr>.Visit(Surface.NamedFunAbs namedFunAbs)
         {
-            Core.Expr bodyExpr = namedFunAbs.BodyExpr.Accept(this);
-            Core.FunAbs funAbs = namedFunAbs.ArgIds.Reverse().Aggregate(
-                bodyExpr, (body, id) => new Core.FunAbs(id, body)) as Core.FunAbs;
+            Core.FunAbs funAbs = namedFunAbs.FunAbs.Accept(this) as Core.FunAbs;
             return new Core.NamedFunAbs(namedFunAbs.NameId, funAbs);
         }
 

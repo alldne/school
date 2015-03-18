@@ -120,29 +120,22 @@ namespace School.Surface
     public class NamedFunAbs : Expr
     {
         private readonly Id nameId;
-        private readonly IReadOnlyList<Id> argIds;
-        private readonly Expr bodyExpr;
+        private readonly FunAbs funAbs;
 
         public Id NameId
         {
             get { return nameId; }
         }
 
-        public IReadOnlyList<Id> ArgIds
+        public FunAbs FunAbs
         {
-            get { return argIds; }
+            get { return funAbs; }
         }
 
-        public Expr BodyExpr
-        {
-            get { return bodyExpr; }
-        }
-
-        public NamedFunAbs(Id nameId, IReadOnlyList<Id> argIds, Expr bodyExpr)
+        public NamedFunAbs(Id nameId, FunAbs funAbs)
         {
             this.nameId = nameId;
-            this.argIds = argIds;
-            this.bodyExpr = bodyExpr;
+            this.funAbs = funAbs;
         }
 
         public override R Accept<R>(IExprVisitor<R> visitor)
