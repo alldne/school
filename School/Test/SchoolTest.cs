@@ -237,5 +237,33 @@ namespace School.Test
             Assert.AreEqual(false, (value.Elements[1] as BooleanValue).Value);
             Assert.AreEqual(UnitValue.Singleton, value.Elements[2] as UnitValue);
         }
+
+        [Test]
+        public void TestEquality()
+        {
+            BooleanValue value1 = Evaluate("1 = 1") as BooleanValue;
+            Assert.NotNull(value1);
+            Assert.AreEqual(true, value1.Value);
+
+            BooleanValue value2 = Evaluate("1 = 2") as BooleanValue;
+            Assert.NotNull(value2);
+            Assert.AreEqual(false, value2.Value);
+
+            BooleanValue value3 = Evaluate("true = true") as BooleanValue;
+            Assert.NotNull(value3);
+            Assert.AreEqual(true, value3.Value);
+
+            BooleanValue value4 = Evaluate("true = false") as BooleanValue;
+            Assert.NotNull(value4);
+            Assert.AreEqual(false, value4.Value);
+
+            BooleanValue value5 = Evaluate("() = ()") as BooleanValue;
+            Assert.NotNull(value5);
+            Assert.AreEqual(true, value5.Value);
+
+            BooleanValue value6 = Evaluate("1 = true") as BooleanValue;
+            Assert.NotNull(value6);
+            Assert.AreEqual(false, value6.Value);
+        }
     }
 }
