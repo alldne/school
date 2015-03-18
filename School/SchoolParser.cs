@@ -57,7 +57,7 @@ namespace School
         private Surface.Expr ParseComparisonExpr()
         {
             Surface.Expr left = ParseArithmeticExpr();
-            if (LookAhead.Type == SchoolLexer.GT || LookAhead.Type == SchoolLexer.LT)
+            if (LookAhead.Type == SchoolLexer.GT || LookAhead.Type == SchoolLexer.LT || LookAhead.Type == SchoolLexer.GTE || LookAhead.Type == SchoolLexer.LTE)
             {
                 int type = LookAhead.Type;
                 Consume();
@@ -68,6 +68,10 @@ namespace School
                     left = new Surface.Gt(left, right);
                 else if (type == SchoolLexer.LT)
                     left = new Surface.Lt(left, right);
+                else if (type == SchoolLexer.GTE)
+                    left = new Surface.Gte(left, right);
+                else if (type == SchoolLexer.LTE)
+                    left = new Surface.Lte(left, right);
                 else
                     throw new ParserException("unreachable code");
             }

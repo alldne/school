@@ -17,6 +17,8 @@ namespace School.Surface
         R Visit(Composition comp);
         R Visit(Gt gt);
         R Visit(Lt lt);
+        R Visit(Gte gte);
+        R Visit(Lte lte);
         R Visit(IdExpr idExpr);
         R Visit(Program program);
         R Visit(NamedFunAbsList funNamedAbsList);
@@ -405,6 +407,26 @@ namespace School.Surface
     public class Lt : BinaryOperator
     {
         public Lt(Expr left, Expr right) : base(left, right) { }
+
+        public override R Accept<R>(IExprVisitor<R> visitor)
+        {
+            return visitor.Visit(this);
+        }
+    }
+
+    public class Gte: BinaryOperator
+    {
+        public Gte(Expr left, Expr right) : base(left, right) { }
+
+        public override R Accept<R>(IExprVisitor<R> visitor)
+        {
+            return visitor.Visit(this);
+        }
+    }
+
+    public class Lte : BinaryOperator
+    {
+        public Lte(Expr left, Expr right) : base(left, right) { }
 
         public override R Accept<R>(IExprVisitor<R> visitor)
         {

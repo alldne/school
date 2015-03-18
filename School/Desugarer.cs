@@ -109,6 +109,20 @@ namespace School
             return new Core.BinaryOperator("lt", left, right);
         }
 
+        Core.Expr Surface.IExprVisitor<Core.Expr>.Visit(Surface.Gte gte)
+        {
+            Core.Expr left = gte.Left.Accept(this);
+            Core.Expr right = gte.Right.Accept(this);
+            return new Core.BinaryOperator("gte", left, right);
+        }
+
+        Core.Expr Surface.IExprVisitor<Core.Expr>.Visit(Surface.Lte lte)
+        {
+            Core.Expr left = lte.Left.Accept(this);
+            Core.Expr right = lte.Right.Accept(this);
+            return new Core.BinaryOperator("lte", left, right);
+        }
+
         Core.Expr Surface.IExprVisitor<Core.Expr>.Visit(Surface.IdExpr idExpr)
         {
             return new Core.IdExpr(idExpr.Id);

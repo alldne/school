@@ -27,9 +27,12 @@ namespace School
         public const int RIGHT_COMPOSITION = 18;
         public const int GT = 19;
         public const int LT = 20;
+        public const int GTE = 21;
+        public const int LTE = 22;
         public static readonly string[] tokenNames =
             { "n/a", "<EOF>", "ADD", "SUB", "MUL", "DIV", "LPAREN", "RPAREN",
-                "NUM", "ID", "KEYWORDS", "ARROW", "UNIT", "LBRACKET", "RBRACKET", "COMMA", "SEMICOLON", "EQUAL", "RIGHT_COMPOSITION", "GT", "LT" };
+                "NUM", "ID", "KEYWORDS", "ARROW", "UNIT", "LBRACKET", "RBRACKET",
+                "COMMA", "SEMICOLON", "EQUAL", "RIGHT_COMPOSITION", "GT", "LT", "GTE", "LTE" };
 
         private static readonly IImmutableSet<string> keywords;
 
@@ -108,10 +111,19 @@ namespace School
                             Consume();
                             return new Token(RIGHT_COMPOSITION, ">>");
                         }
-                        else
-                            return new Token(GT, ">");
+                        else if (LookAhead == '=')
+                        {
+                            Consume();
+                            return new Token(GTE, ">=");
+                        }
+                        return new Token(GT, ">");
                     case '<':
                         Consume();
+                        if (LookAhead == '=')
+                        {
+                            Consume();
+                            return new Token(LTE, "<=");
+                        }
                         return new Token(LT, "<");
                     default:
                         if (IsLetter())
