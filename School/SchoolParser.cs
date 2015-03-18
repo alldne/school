@@ -225,20 +225,13 @@ namespace School
 
         private Surface.Expr ParseFunAbs()
         {
-            Surface.Expr expr;
-
             MatchKeyword("fun");
-
             IReadOnlyList<Id> argIds = ParseArgIds();
-
             Match(SchoolLexer.ARROW);
-
             Surface.Expr bodyExpr = ParseExprList();
-            expr = new Surface.FunAbs(argIds, bodyExpr);
-
             MatchKeyword("end");
 
-            return expr;
+            return new Surface.FunAbs(argIds, bodyExpr);
         }
 
         private bool IsNamedFunAbs()
@@ -258,21 +251,14 @@ namespace School
 
         private Surface.Expr ParseNamedFunAbs()
         {
-            Surface.Expr expr;
-
             MatchKeyword("let");
-
             Id nameId = ParseId();
             IReadOnlyList<Id> argIds = ParseArgIds();
-
             Match(SchoolLexer.EQUAL);
-
             Surface.Expr bodyExpr = ParseExprList();
-            expr = new Surface.NamedFunAbs(nameId, new Surface.FunAbs(argIds, bodyExpr));
-
             MatchKeyword("end");
 
-            return expr;
+            return new Surface.NamedFunAbs(nameId, new Surface.FunAbs(argIds, bodyExpr));
         }
 
         private bool IsBoolean()
