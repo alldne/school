@@ -6,6 +6,13 @@ using System.IO;
 
 namespace School.Evaluator
 {
+    public class RuntimeError : Exception
+    {
+        public RuntimeError(string message) : base(message)
+        {
+        }
+    }
+
     public class Evaluator : Core.IExprVisitor<Value>
     {
         private Env env = Env.Empty;
@@ -86,8 +93,10 @@ namespace School.Evaluator
 
         Value Core.IExprVisitor<Value>.Visit(Core.NamedFunAbs namedFunAbs)
         {
-            FunValue1 funValue = namedFunAbs.FunAbs.Accept(this) as FunValue1;
+            FunValue1 funValue = new FunValue1();
             this.env = env.Add(namedFunAbs.NameId, funValue);
+            funValue.Value = (namedFunAbs.FunAbs.Accept(this) as FunValue1).Value;
+
             return funValue;
         }
 

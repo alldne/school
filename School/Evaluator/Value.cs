@@ -131,7 +131,18 @@ namespace School.Evaluator
 
     public class FunValue1 : FunValue
     {
-        private readonly Func<Value, Value> value;
+        private Func<Value, Value> value;
+
+        public Func<Value, Value> Value
+        {
+            get { return this.value; }
+            set { this.value = value; }
+        }
+
+        public FunValue1()
+        {
+            this.value = null;
+        }
 
         public FunValue1(Func<Value, Value> value)
         {
