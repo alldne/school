@@ -83,6 +83,18 @@ namespace School.Test
         }
 
         [Test]
+        public void TestArithOperatorPrecedence()
+        {
+            IntValue value1 = Evaluate("2 + 3 * 4") as IntValue;
+            Assert.NotNull(value1);
+            Assert.AreEqual(14, value1.Value);
+
+            IntValue value2 = Evaluate("8 - 4 / 2") as IntValue;
+            Assert.NotNull(value2);
+            Assert.AreEqual(6, value2.Value);
+        }
+
+        [Test]
         [ExpectedException(typeof(DivideByZeroException))]
         public void TestDivByZero()
         {
