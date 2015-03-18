@@ -77,5 +77,6 @@
     <None Include="Examples\helloworld.sc" />
     <None Include="Examples\unitlist.sc" />
     <None Include="Examples\namedfun.sc" />
+    <None Include="Examples\factorial.sc" />
   </ItemGroup>
 </Project>
