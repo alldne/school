@@ -246,17 +246,23 @@ namespace School
             return LookAhead.Text == "let";
         }
 
+        private Id ParseId()
+        {
+            if (LookAhead.Type != SchoolLexer.ID)
+                throw new ParserException("expecting id; found " + LookAhead);
+
+            Id id = Id.id(LookAhead.Text);
+            Consume();
+            return id;
+        }
+
         private Surface.Expr ParseNamedFunAbs()
         {
             Surface.Expr expr;
 
             MatchKeyword("let");
 
-            if (LookAhead.Type != SchoolLexer.ID)
-                throw new ParserException("expecting id; found " + LookAhead);
-            Id nameId = Id.id(LookAhead.Text);
-            Consume();
-
+            Id nameId = ParseId();
             IReadOnlyList<Id> argIds = ParseArgIds();
 
             Match(SchoolLexer.EQUAL);
