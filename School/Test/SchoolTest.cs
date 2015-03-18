@@ -155,5 +155,14 @@ namespace School.Test
             IntValue value = Evaluate("1;2;3") as IntValue;
             Assert.AreEqual(3, value.Value);
         }
+
+        [Test]
+        public void TestList()
+        {
+            ListValue value = Evaluate("[1,2,3]") as ListValue;
+            Assert.AreEqual(1, (value.Elements[0] as IntValue).Value);
+            Assert.AreEqual(2, (value.Elements[1] as IntValue).Value);
+            Assert.AreEqual(3, (value.Elements[2] as IntValue).Value);
+        }
     }
 }
