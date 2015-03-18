@@ -37,10 +37,7 @@ namespace School
             {
                 namedFunAbsList.Add(ParseNamedFunAbs());
                 while (IsNamedFunAbs())
-                {
-                    Consume();
                     namedFunAbsList.Add(ParseNamedFunAbs());
-                }
             }
             return new Surface.NamedFunAbsList(namedFunAbsList);
         }
