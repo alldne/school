@@ -21,6 +21,16 @@ namespace School.Evaluator
         {
             return "()";
         }
+
+        public override bool Equals(object obj)
+        {
+            return ReferenceEquals(this, obj);
+        }
+
+        public override int GetHashCode()
+        {
+            return 0;
+        }
     }
 
     public class IntValue : Value
@@ -40,6 +50,20 @@ namespace School.Evaluator
         public override string ToString()
         {
             return value.ToString();
+        }
+
+        public override bool Equals(object obj)
+        {
+            IntValue other = obj as IntValue;
+            if (other == null)
+                return false;
+
+            return value == other.Value;
+        }
+
+        public override int GetHashCode()
+        {
+            return value.GetHashCode();
         }
     }
 
@@ -64,6 +88,20 @@ namespace School.Evaluator
         {
             return value ? "true" : "false";
         }
+
+        public override bool Equals(object obj)
+        {
+            BooleanValue other = obj as BooleanValue;
+            if (other == null)
+                return false;
+
+            return value == other.Value;
+        }
+
+        public override int GetHashCode()
+        {
+            return value.GetHashCode();
+        }
     }
 
     public abstract class FunValue : Value
@@ -76,6 +114,18 @@ namespace School.Evaluator
             if (fun == null)
                 throw new RuntimeTypeError("fun expected");
             return fun.Apply(arg2);
+        }
+
+        public override bool Equals(object obj)
+        {
+            // Function comparison always fails because
+            // it is impossible to prove two given functions are equal.
+            return false;
+        }
+
+        public override int GetHashCode()
+        {
+            return 0;
         }
     }
 
@@ -142,5 +192,7 @@ namespace School.Evaluator
         {
             return String.Format("[{0}]", String.Join(",", elements.Select(e => e.ToString())));
         }
+
+        // FIXME: Override Equals and GetHashCode
     }
 }

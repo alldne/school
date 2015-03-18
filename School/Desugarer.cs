@@ -53,6 +53,13 @@ namespace School
             return new Core.List(elements);
         }
 
+        Core.Expr Surface.IExprVisitor<Core.Expr>.Visit(Surface.Equal add)
+        {
+            Core.Expr left = add.Left.Accept(this);
+            Core.Expr right = add.Right.Accept(this);
+            return new Core.BinaryOperator("equal", left, right);
+        }
+
         Core.Expr Surface.IExprVisitor<Core.Expr>.Visit(Surface.Add add)
         {
             Core.Expr left = add.Left.Accept(this);

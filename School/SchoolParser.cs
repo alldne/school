@@ -56,6 +56,22 @@ namespace School
 
         private Surface.Expr ParseExpr()
         {
+            Surface.Expr left = ParseComparisonExpr();
+
+            while (LookAhead.Type == SchoolLexer.EQUAL)
+            {
+                int type = LookAhead.Type;
+                Consume();
+
+                Surface.Expr right = ParseComparisonExpr();
+                left = new Surface.Equal(left, right);
+            }
+
+            return left;
+        }
+
+        private Surface.Expr ParseComparisonExpr()
+        {
             Surface.Expr left = ParseTerm();
 
             while (LookAhead.Type == SchoolLexer.ADD || LookAhead.Type == SchoolLexer.SUB)
@@ -74,7 +90,7 @@ namespace School
 
             return left;
         }
-
+ 
         private Surface.Expr ParseTerm()
         {
             Surface.Expr left = ParseApp();

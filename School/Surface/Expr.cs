@@ -9,6 +9,7 @@ namespace School.Surface
         R Visit(Number number);
         R Visit(Boolean b);
         R Visit(List list);
+        R Visit(Equal add);
         R Visit(Add add);
         R Visit(Sub sub);
         R Visit(Mul mul);
@@ -325,6 +326,16 @@ namespace School.Surface
         {
             this.right = right;
             this.left = left;
+        }
+    }
+
+    public class Equal : BinaryOperator
+    {
+        public Equal(Expr left, Expr right) : base(left, right) { }
+
+        public override R Accept<R>(IExprVisitor<R> visitor)
+        {
+            return visitor.Visit(this);
         }
     }
 

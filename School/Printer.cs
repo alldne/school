@@ -101,6 +101,12 @@ namespace School
             builder.Append(")");
         }
 
+        object Surface.IExprVisitor<object>.Visit(Surface.Equal equal)
+        {
+            PrintBinaryOperator(equal, '=');
+            return null;
+        }
+
         object Surface.IExprVisitor<object>.Visit(Surface.Add add)
         {
             PrintBinaryOperator(add, '+');

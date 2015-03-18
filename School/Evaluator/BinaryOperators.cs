@@ -10,7 +10,8 @@ namespace School.Evaluator
             { "add", Add },
             { "sub", Sub },
             { "mul", Mul },
-            { "div", Div }
+            { "div", Div },
+            { "equal", Equal }
         };
 
         public static Func<Value, Value, Value> Lookup(string name)
@@ -56,6 +57,11 @@ namespace School.Evaluator
                 throw new RuntimeTypeError("int expected");
 
             return new IntValue(a.Value / b.Value);
+        }
+
+        private static Value Equal(Value aValue, Value bValue)
+        {
+            return aValue.Equals(bValue) ? BooleanValue.True : BooleanValue.False;
         }
     }
 }
