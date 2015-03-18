@@ -148,5 +148,12 @@ namespace School.Test
             Value value = Evaluate("()");
             Assert.AreEqual(UnitValue.Singleton, value);
         }
+
+        [Test]
+        public void TestSemicolonOperator()
+        {
+            IntValue value = Evaluate("1;2;3") as IntValue;
+            Assert.AreEqual(3, value.Value);
+        }
     }
 }
