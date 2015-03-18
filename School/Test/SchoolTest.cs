@@ -275,5 +275,16 @@ namespace School.Test
             Assert.NotNull(value);
             Assert.AreEqual(120, value.Value);
         }
+
+        [Test]
+        public void TestComposition()
+        {
+            BooleanValue value = Evaluate(
+                @"let f x = x * 2 end
+                  let g y = y = 4 end
+                  (f >> g) 2") as BooleanValue;
+            Assert.NotNull(value);
+            Assert.AreEqual(true, value.Value);
+        }
     }
 }
